@@ -40,14 +40,14 @@ const SplitText = ({ text, className, delay = 0 }: { text: string, className?: s
 
   return (
     <motion.div
-      style={{ display: "inline-flex", overflow: "hidden", perspective: "1000px" }}
+      style={{ display: "inline-flex", overflow: "visible", perspective: "1000px" }}
       variants={container}
       initial="hidden"
       animate="visible"
       className={className}
     >
       {letters.map((letter, index) => (
-        <motion.span variants={child} key={index} className="inline-block origin-bottom pb-4">
+        <motion.span variants={child} key={index} className="inline-block origin-bottom py-8 px-1">
           {letter === " " ? "\u00A0" : letter}
         </motion.span>
       ))}
