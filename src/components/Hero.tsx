@@ -91,7 +91,7 @@ export default function Hero() {
           playsInline
           className="w-full h-full object-cover filter brightness-[0.6] contrast-[1.1] sepia-[0.2]"
         >
-          <source src="/engagement_video.mov" type="video/mp4" />
+          <source src="/engagement.mp4" type="video/mp4" />
         </video>
         {/* Navy Overlay to ensure text readability */}
         <div className="absolute inset-0 bg-[#0B132B]/50" />
