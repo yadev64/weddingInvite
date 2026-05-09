@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #FFD700;
+  --color-primary: #E1D3C1;
   --color-on-primary: #0B132B;
-  --color-secondary: #F4D03F;
+  --color-secondary: #E1D3C1;
   --color-accent: #1C2541;
   --color-background: #0B132B;
   --color-foreground: #F8F9FA;
   --color-muted: #1C2541;
-  --color-border: #FFD700;
+  --color-border: #E1D3C1;
   --color-destructive: #E74C3C;
-  --color-ring: #FFD700;
+  --color-ring: #E1D3C1;
 
   --font-great-vibes: var(--font-great-vibes);
   --font-cormorant: var(--font-cormorant);
@@ -26,6 +26,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
+}
+
+/* Elegant Champagne Blush Gradient */
+.text-elegant-gradient {
+  background: linear-gradient(to right, #E1D3C1, #FFF9F2, #D4C3AC, #FFF9F2, #CBAFA1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* CSS Stars Animation */
@@ -48,13 +56,13 @@ body {
 
 @keyframes twinkle {
   0% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: var(--max-opacity, 0.8); transform: scale(1); box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.4); }
+  50% { opacity: var(--max-opacity, 0.8); transform: scale(1); box-shadow: 0 0 8px 2px rgba(225, 211, 193, 0.4); }
   100% { opacity: 0; transform: scale(0.5); }
 }
 
 /* Moon Glow */
 .moon-glow {
-  box-shadow: 0 0 50px 20px rgba(255, 215, 0, 0.15), inset 0 0 20px 5px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 50px 20px rgba(225, 211, 193, 0.15), inset 0 0 20px 5px rgba(255, 255, 255, 0.5);
 }
 
 /* Paper-cut Shadow */
