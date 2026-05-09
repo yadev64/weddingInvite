@@ -37,7 +37,7 @@ export default function RootLayout({
       className={`${greatVibes.variable} ${cormorantInfant.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-cormorant bg-background text-foreground overflow-x-hidden selection:bg-primary/30">
-        <div className="noise-overlay"></div>
+        {/* <div className="noise-overlay"></div> */}
         <SmoothScroll>
           {children}
         </SmoothScroll>

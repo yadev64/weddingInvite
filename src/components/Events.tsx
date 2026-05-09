@@ -1,6 +1,6 @@
 "use client";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { MapPin, CalendarHeart, Clock } from "lucide-react";
+import { MapPin, CalendarHeart, Clock, Sparkles } from "lucide-react";
 import { useRef } from "react";
 
 const events = [
@@ -11,7 +11,6 @@ const events = [
     time: "Morning Auspicious Muhurtham",
     venue: "Vaikom Temple",
     description: "Join us as we tie the knot and seek the blessings of the Almighty in the sacred precincts of Vaikom Mahadeva Temple.",
-    image: "/temple_line_art.png",
   },
   {
     id: "reception",
@@ -20,44 +19,40 @@ const events = [
     time: "6:00 PM Onwards",
     venue: "North Paravur Central Auditorium",
     description: "An evening of magical celebration, dinner, and joy with our loved ones under the starlit sky.",
-    image: "/reception_line_art.png",
   }
 ];
 
 export default function Events() {
   return (
     <section className="py-32 px-6 bg-[#001540] relative z-10 overflow-hidden">
-      {/* Royal Pattern Overlay */}
-      <div 
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `url("https://www.transparenttextures.com/patterns/royal-feather.png")`,
-          backgroundSize: "400px"
-        }}
-      />
+      {/* Decorative Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+        <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[#D4AF37]/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-[#D4AF37]/10 rounded-full blur-[120px]" />
+      </div>
 
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="max-w-5xl mx-auto relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="text-center mb-32"
+          className="text-center mb-24"
         >
-          <span className="text-[#D4AF37] font-playfair uppercase tracking-[0.4em] text-sm mb-4 inline-block">
+          <span className="text-[#D4AF37] font-playfair uppercase tracking-[0.44em] text-xs mb-6 inline-block bg-[#D4AF37]/10 px-4 py-1 rounded-full border border-[#D4AF37]/20">
             Save the Date
           </span>
           <h2 className="font-great-vibes text-7xl md:text-8xl mb-4 py-4 drop-shadow-[0_0_15px_rgba(212,175,55,0.4)] text-transparent bg-clip-text bg-gradient-to-b from-[#F9E29C] via-[#D4AF37] to-[#B8860B]">
             Auspicious Events
           </h2>
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <div className="h-px w-24 bg-gradient-to-r from-transparent to-[#D4AF37]/50" />
-            <div className="w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,1)]" />
-            <div className="h-px w-24 bg-gradient-to-l from-transparent to-[#D4AF37]/50" />
+          <div className="flex items-center justify-center gap-6 mt-8">
+            <div className="h-[1px] w-20 bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-[#D4AF37]" />
+            <Sparkles className="w-5 h-5 text-[#D4AF37] animate-pulse" />
+            <div className="h-[1px] w-20 bg-gradient-to-l from-transparent via-[#D4AF37]/40 to-[#D4AF37]" />
           </div>
         </motion.div>
 
-        <div className="flex flex-col gap-24">
+        <div className="flex flex-col gap-16 md:gap-24">
           {events.map((event, index) => (
             <EventCard key={event.id} event={event} index={index} />
           ))}
@@ -68,19 +63,19 @@ export default function Events() {
 }
 
 function EventCard({ event, index }: { event: any, index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
-  const mouseXSpring = useSpring(x, { stiffness: 100, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 100, damping: 20 });
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 30 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["5deg", "-5deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "15deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["3deg", "-3deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-3deg", "3deg"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
     const mouseX = e.clientX - rect.left;
@@ -98,84 +93,92 @@ function EventCard({ event, index }: { event: any, index: number }) {
 
   return (
     <motion.div
-      ref={ref}
+      ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 1.2, delay: index * 0.2, ease: [0.16, 1, 0.3, 1] }}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative w-full group"
+      className="relative w-full"
     >
-      {/* Royal Card Frame */}
-      <div className="absolute inset-0 bg-[#002366] rounded-3xl shadow-[0_30px_100px_rgba(0,0,0,0.5)] border-[3px] border-[#D4AF37]/30 overflow-hidden">
-         {/* Subtle Inner Glow */}
-         <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/10 to-transparent pointer-events-none" />
-      </div>
+      {/* Premium Glass Card Surface */}
+      <div className="absolute inset-0 bg-[#001D4D]/80 backdrop-blur-md rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.6)] border border-[#D4AF37]/30 group-hover:border-[#D4AF37]/50 transition-colors duration-500 overflow-hidden" />
       
-      {/* Intricate Gold Border Overlay */}
-      <div className="absolute inset-[10px] rounded-2xl border border-[#D4AF37]/20 pointer-events-none translate-z-4" />
-      
-      {/* Card Content */}
-      <div className="relative p-8 md:p-16 flex flex-col md:flex-row items-center gap-12 translate-z-10">
-        {/* Event Illustration with Gold Glow */}
-        <div className="w-full md:w-1/3 shrink-0">
-          <div className="relative aspect-square rounded-full overflow-hidden border-2 border-[#D4AF37]/40 bg-[#001540] shadow-[0_0_40px_rgba(212,175,55,0.2)]">
-            <img 
-              src={event.image} 
-              alt={event.title} 
-              className="w-full h-full object-cover filter brightness-[1.2] sepia-[0.4] hue-rotate-[320deg]"
-            />
-          </div>
-        </div>
+      {/* Animated Subtle Glow */}
+      <div className="absolute -inset-[2px] rounded-[2.5rem] bg-gradient-to-br from-[#D4AF37]/20 via-transparent to-[#D4AF37]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
 
-        {/* Details */}
-        <div className="flex-1 text-center md:text-left">
-          <h3 className="text-6xl font-great-vibes text-transparent bg-clip-text bg-gradient-to-r from-[#F9E29C] to-[#D4AF37] mb-6 py-2">
+      {/* Structured Content Grid */}
+      <div className="relative p-8 md:p-14 flex flex-col items-center gap-10 translate-z-10">
+        
+        {/* Header: The Title */}
+        <div className="text-center w-full">
+          <h3 className="text-6xl md:text-7xl font-great-vibes text-transparent bg-clip-text bg-gradient-to-r from-[#F9E29C] via-[#D4AF37] to-[#B8860B] mb-2 py-2">
             {event.title}
           </h3>
-          
-          <div className="space-y-6 mb-8">
-            <div className="flex items-center justify-center md:justify-start gap-4">
-              <CalendarHeart className="w-6 h-6 text-[#D4AF37] drop-shadow-[0_0_5px_rgba(212,175,55,0.5)]" />
-              <span className="font-playfair text-xl md:text-2xl text-white/90 tracking-wide">
-                {event.date}
-              </span>
-            </div>
-            
-            <div className="flex items-center justify-center md:justify-start gap-4">
-              <Clock className="w-6 h-6 text-[#D4AF37] drop-shadow-[0_0_5px_rgba(212,175,55,0.5)]" />
-              <span className="text-lg text-white/70 font-cormorant tracking-[0.15em] uppercase">
-                {event.time}
-              </span>
-            </div>
+          <div className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent mx-auto" />
+        </div>
 
-            <div className="flex items-center justify-center md:justify-start gap-4">
-              <MapPin className="w-6 h-6 text-[#D4AF37] drop-shadow-[0_0_5px_rgba(212,175,55,0.5)]" />
-              <span className="font-playfair text-lg md:text-xl text-white/90 tracking-wide italic">
-                {event.venue}
-              </span>
+        {/* Contextual Body: When & Where Grouping */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0 w-full max-w-3xl divide-y md:divide-y-0 md:divide-x divide-[#D4AF37]/20">
+          
+          {/* Section: The When (Schedule) */}
+          <div className="flex flex-col items-center justify-center p-6 space-y-4">
+            <div className="bg-[#D4AF37]/10 p-3 rounded-2xl border border-[#D4AF37]/20">
+              <CalendarHeart className="w-7 h-7 text-[#D4AF37] drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+            </div>
+            <div className="text-center">
+              <p className="font-playfair text-[#D4AF37]/80 uppercase tracking-widest text-xs mb-2">The Schedule</p>
+              <h4 className="font-playfair text-xl md:text-2xl text-white tracking-wide mb-1">{event.date}</h4>
+              <p className="font-cormorant text-white/60 tracking-[0.1em] uppercase text-sm">{event.time}</p>
             </div>
           </div>
 
-          <p className="text-white/60 font-cormorant text-xl leading-relaxed italic max-w-md mx-auto md:mx-0">
-            "{event.description}"
-          </p>
-
-          <motion.button 
-            whileHover={{ scale: 1.05, backgroundColor: "#D4AF37", color: "#001540" }}
-            whileTap={{ scale: 0.95 }}
-            className="mt-10 px-10 py-3 rounded-full border border-[#D4AF37] text-[#D4AF37] font-playfair tracking-[0.3em] text-xs uppercase transition-all duration-500 shadow-[0_0_20px_rgba(212,175,55,0.1)] hover:shadow-[0_0_40px_rgba(212,175,55,0.4)]"
-          >
-            View on Map
-          </motion.button>
+          {/* Section: The Where (Location) */}
+          <div className="flex flex-col items-center justify-center p-6 space-y-4">
+            <div className="bg-[#D4AF37]/10 p-3 rounded-2xl border border-[#D4AF37]/20">
+              <MapPin className="w-7 h-7 text-[#D4AF37] drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+            </div>
+            <div className="text-center">
+              <p className="font-playfair text-[#D4AF37]/80 uppercase tracking-widest text-xs mb-2">The Venue</p>
+              <h4 className="font-playfair text-xl md:text-2xl text-white tracking-wide mb-1 italic">{event.venue}</h4>
+              <p className="font-cormorant text-white/60 tracking-[0.05em] text-sm italic">Vaikom, Kerala</p>
+            </div>
+          </div>
         </div>
+
+        {/* Emotional Context: The Why */}
+        <div className="max-w-2xl text-center">
+          <div className="inline-block relative">
+             <span className="absolute -top-4 -left-6 text-4xl text-[#D4AF37]/20 font-serif">"</span>
+             <p className="text-white/70 font-cormorant text-xl md:text-2xl leading-relaxed italic px-4">
+               {event.description}
+             </p>
+             <span className="absolute -bottom-10 -right-6 text-4xl text-[#D4AF37]/20 font-serif">"</span>
+          </div>
+        </div>
+
+        {/* Action: Refined Button */}
+        <motion.button 
+          whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(212,175,55,0.3)" }}
+          whileTap={{ scale: 0.98 }}
+          className="mt-6 px-12 py-4 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] text-[#001540] font-playfair font-bold tracking-[0.2em] text-xs uppercase transition-all duration-500 shadow-[0_10px_20px_rgba(0,0,0,0.3)] relative group overflow-hidden"
+        >
+          <span className="relative z-10">Get Directions</span>
+          <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+        </motion.button>
       </div>
 
-      {/* Royal Corner Accents (Gold) */}
-      <div className="absolute top-4 left-4 w-10 h-10 border-t-2 border-l-2 border-[#D4AF37]/60 pointer-events-none rounded-tl-xl" />
-      <div className="absolute bottom-4 right-4 w-10 h-10 border-b-2 border-r-2 border-[#D4AF37]/60 pointer-events-none rounded-br-xl" />
+      {/* Decorative Corner Filigree (SVG based for pro look) */}
+      <svg className="absolute top-6 left-6 w-12 h-12 text-[#D4AF37]/30 pointer-events-none" viewBox="0 0 100 100">
+        <path d="M0 0 L100 0 M0 0 L0 100" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="5,5" />
+        <circle cx="0" cy="0" r="4" fill="currentColor" />
+      </svg>
+      <svg className="absolute bottom-6 right-6 w-12 h-12 text-[#D4AF37]/30 pointer-events-none rotate-180" viewBox="0 0 100 100">
+        <path d="M0 0 L100 0 M0 0 L0 100" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="5,5" />
+        <circle cx="0" cy="0" r="4" fill="currentColor" />
+      </svg>
     </motion.div>
   );
 }
