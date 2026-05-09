@@ -55,7 +55,7 @@ export default function Gallery() {
           <span className="text-primary font-playfair tracking-[0.3em] uppercase text-xs mb-6 inline-block">
             Gallery
           </span>
-          <h2 className="font-great-vibes text-6xl md:text-8xl mb-4 drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient">
+          <h2 className="font-great-vibes text-6xl md:text-8xl mb-4 py-4 drop-shadow-[0_0_20px_rgba(197,160,89,0.3)] text-elegant-gradient">
             Captured Moments
           </h2>
         </motion.div>

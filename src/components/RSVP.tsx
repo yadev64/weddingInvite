@@ -36,7 +36,7 @@ export default function RSVP() {
           <span className="text-primary/70 font-playfair uppercase tracking-[0.4em] text-sm mb-4 inline-block">
             RSVP
           </span>
-          <h2 className="font-great-vibes text-7xl md:text-8xl mb-4 drop-shadow-[0_0_15px_rgba(197, 160, 89,0.4)] text-elegant-gradient">
+          <h2 className="font-great-vibes text-7xl md:text-8xl mb-4 py-4 drop-shadow-[0_0_15px_rgba(197,160,89,0.4)] text-elegant-gradient">
             Be Our Guest
           </h2>
         </motion.div>
@@ -64,7 +64,7 @@ export default function RSVP() {
                 >
                   <Sparkles className="w-16 h-16 text-primary drop-shadow-[0_0_15px_rgba(197, 160, 89,0.8)]" />
                 </motion.div>
-                <h3 className="font-great-vibes text-6xl text-primary mb-6 drop-shadow-[0_0_10px_rgba(197, 160, 89,0.4)]">Thank You!</h3>
+                <h3 className="font-great-vibes text-6xl text-primary mb-6 py-2 drop-shadow-[0_0_10px_rgba(197,160,89,0.4)]">Thank You!</h3>
                 <p className="text-foreground/80 font-cormorant text-2xl">We can't wait to celebrate with you under the stars.</p>
               </motion.div>
             ) : (

@@ -79,7 +79,7 @@ export default function Story() {
             Chapter I
           </motion.span>
           
-          <h2 className="font-great-vibes text-7xl md:text-8xl lg:text-9xl mb-24 drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient">
+          <h2 className="font-great-vibes text-7xl md:text-8xl lg:text-9xl mb-24 py-4 drop-shadow-[0_0_20px_rgba(197,160,89,0.3)] text-elegant-gradient">
             How we met
           </h2>
           

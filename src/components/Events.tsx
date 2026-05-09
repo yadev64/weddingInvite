@@ -40,12 +40,12 @@ export default function Events() {
           <span className="text-primary/70 font-playfair uppercase tracking-[0.4em] text-sm mb-4 inline-block">
             Chapter II
           </span>
-          <h2 className="font-great-vibes text-7xl md:text-8xl mb-4 drop-shadow-[0_0_15px_rgba(197, 160, 89,0.4)] text-elegant-gradient">
+          <h2 className="font-great-vibes text-7xl md:text-8xl mb-4 py-4 drop-shadow-[0_0_15px_rgba(197,160,89,0.4)] text-elegant-gradient">
             Auspicious Events
           </h2>
           <div className="flex items-center justify-center gap-4 mt-8">
             <div className="h-px w-24 bg-gradient-to-r from-transparent to-primary/50" />
-            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(197, 160, 89,1)]" />
+            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(197,160,89,1)]" />
             <div className="h-px w-24 bg-gradient-to-l from-transparent to-primary/50" />
           </div>
         </motion.div>
@@ -142,7 +142,7 @@ function EventBlock({ event, index }: { event: any, index: number }) {
         transition={{ duration: 1, delay: 0.3, ease: [0.76, 0, 0.24, 1] }}
         className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left"
       >
-        <h3 className="text-6xl font-great-vibes text-primary mb-8 drop-shadow-[0_0_15px_rgba(197, 160, 89,0.4)]">
+        <h3 className="text-6xl font-great-vibes text-primary mb-8 py-4 drop-shadow-[0_0_15px_rgba(197, 160, 89,0.4)]">
           {event.title}
         </h3>
         
