@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import Story from "@/components/Story";
 import Events from "@/components/Events";
 import Gallery from "@/components/Gallery";
-import RSVP from "@/components/RSVP";
+import Footer from "@/components/Footer";
 import EnvelopeIntro from "@/components/EnvelopeIntro";
 
 export default function Home() {
@@ -30,7 +30,7 @@ export default function Home() {
       <Story />
       <Events />
       <Gallery />
-      <RSVP />
+      <Footer />
     </main>
   );
 }
