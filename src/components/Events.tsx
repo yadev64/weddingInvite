@@ -11,7 +11,7 @@ const events = [
     time: "Morning Auspicious Muhurtham",
     venue: "Vaikom Temple",
     description: "Join us as we tie the knot and seek the blessings of the Almighty in the sacred precincts of Vaikom Mahadeva Temple.",
-    image: "/temple.png",
+    image: "/temple_line_art.png",
     alignment: "left"
   },
   {
@@ -21,7 +21,7 @@ const events = [
     time: "6:00 PM Onwards",
     venue: "North Paravur Central Auditorium",
     description: "An evening of magical celebration, dinner, and joy with our loved ones under the starlit sky.",
-    image: "/reception.png",
+    image: "/reception_line_art.png",
     alignment: "right"
   }
 ];

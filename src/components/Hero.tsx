@@ -79,38 +79,22 @@ export default function Hero() {
 
   return (
     <section className="relative h-[120vh] w-full flex items-center justify-center overflow-hidden bg-background">
-      <motion.div style={{ y: yStars }} className="absolute inset-0 z-0 pointer-events-none">
-        <div className="stars">
-          {stars.map((star) => (
-            <div
-              key={star.id}
-              className="star"
-              style={{
-                left: star.left,
-                top: star.top,
-                width: Math.random() > 0.8 ? '3px' : '2px',
-                height: Math.random() > 0.8 ? '3px' : '2px',
-                animationDelay: star.delay,
-                "--duration": star.duration,
-                "--max-opacity": star.opacity
-              } as React.CSSProperties}
-            />
-          ))}
-        </div>
-      </motion.div>
-
+      {/* Cinematic Video Background */}
       <motion.div 
-        style={{ y: yMoon, scale: scaleMoon }} 
-        className="absolute top-[10%] left-1/2 -translate-x-1/2 md:translate-x-0 md:left-[15%] md:top-[15%] z-10"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 3, ease: [0.76, 0, 0.24, 1] }}
+        style={{ y: yStars }} 
+        className="absolute inset-0 w-full h-full z-0 pointer-events-none"
       >
-        <div className="w-40 h-40 md:w-56 md:h-56 rounded-full bg-[#FFF5C3] moon-glow relative overflow-hidden">
-          <div className="absolute top-8 left-10 w-12 h-12 rounded-full bg-black/5 blur-[2px]"></div>
-          <div className="absolute top-24 right-12 w-8 h-8 rounded-full bg-black/5 blur-[1px]"></div>
-          <div className="absolute bottom-10 left-16 w-14 h-14 rounded-full bg-black/5 blur-[3px]"></div>
-        </div>
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          className="w-full h-full object-cover filter brightness-[0.6] contrast-[1.1] sepia-[0.2]"
+        >
+          <source src="/engagement_video.mov" type="video/mp4" />
+        </video>
+        {/* Navy Overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-[#0B132B]/50" />
       </motion.div>
 
       <motion.div 
