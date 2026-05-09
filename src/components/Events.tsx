@@ -9,7 +9,7 @@ const events = [
     title: "The Marriage",
     date: "13th September 2026",
     time: "10:00 AM. Morning Auspicious Muhurtham",
-    venue: "Vaikom Temple",
+    venue: "Vaikom Mahadeva Temple",
     description: "Join us as we tie the knot and seek the blessings of the Almighty in the sacred precincts of Vaikom Mahadeva Temple.",
     mapsUrl: "https://maps.app.goo.gl/S26jNida4LH6QUKK7",
     embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3932.7486161483327!2d76.39415731535492!3d9.7471249930248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0870f7d5c8d629%3A0x7d8a9e9e9e9e9e9e!2sVaikom%20Mahadeva%20Temple!5e0!3m2!1sen!2sin!4v1715264000000!5m2!1sen!2sin",
@@ -20,7 +20,7 @@ const events = [
     title: "The Reception",
     date: "14th September 2026",
     time: "6:00 PM Onwards",
-    venue: "North Paravur Central Auditorium",
+    venue: "Central Auditorium",
     description: "An evening of magical celebration, dinner, and joy with our loved ones under the starlit sky.",
     mapsUrl: "https://maps.app.goo.gl/4Ur2g6HRgRBzyGyp8",
     embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.7013890538!2d76.2299839753612!3d10.1416349889984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b08170068a04297%3A0x7c7c340b6e1564c9!2sCentral%20Auditorium!5e0!3m2!1sen!2sin!4v1715264000000!5m2!1sen!2sin",
@@ -49,7 +49,7 @@ export default function Events() {
       </div>
 
       <div className="max-w-5xl mx-auto relative z-10">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -71,11 +71,11 @@ export default function Events() {
 
         <div className="flex flex-col gap-16 md:gap-24">
           {events.map((event, index) => (
-            <EventCard 
-              key={event.id} 
-              event={event} 
-              index={index} 
-              onDirections={() => setSelectedEvent(event)} 
+            <EventCard
+              key={event.id}
+              event={event}
+              index={index}
+              onDirections={() => setSelectedEvent(event)}
             />
           ))}
         </div>
@@ -92,14 +92,14 @@ export default function Events() {
               onClick={() => setSelectedEvent(null)}
               className="absolute inset-0 bg-[#000814]/85 backdrop-blur-md"
             />
-            
+
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               className="relative w-full max-w-2xl bg-[#001D4D] rounded-[2.5rem] border border-[#D4AF37]/30 shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden"
             >
-              <button 
+              <button
                 onClick={() => setSelectedEvent(null)}
                 className="absolute top-6 right-6 text-white/40 hover:text-[#D4AF37] transition-colors z-20 bg-black/20 backdrop-blur-md p-2 rounded-full"
               >
@@ -126,12 +126,12 @@ export default function Events() {
                 {/* Info & Action Area */}
                 <div className="p-8 md:p-10 text-center flex flex-col items-center">
                   <div className="flex items-center gap-3 mb-4">
-                     <MapPin className="w-5 h-5 text-[#D4AF37]" />
-                     <h3 className="font-great-vibes text-4xl md:text-5xl text-[#D4AF37]">
-                       {selectedEvent.venue}
-                     </h3>
+                    <MapPin className="w-5 h-5 text-[#D4AF37]" />
+                    <h3 className="font-great-vibes text-4xl md:text-5xl text-[#D4AF37]">
+                      {selectedEvent.venue}
+                    </h3>
                   </div>
-                  
+
                   <p className="font-playfair text-white/60 tracking-[0.3em] uppercase text-[10px] mb-8">
                     {selectedEvent.location}
                   </p>
@@ -166,7 +166,7 @@ function EventCard({ event, index, onDirections }: { event: any, index: number, 
   const cardRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  
+
   const mouseXSpring = useSpring(x, { stiffness: 150, damping: 30 });
   const mouseYSpring = useSpring(y, { stiffness: 150, damping: 30 });
 
@@ -205,16 +205,17 @@ function EventCard({ event, index, onDirections }: { event: any, index: number, 
     >
       {/* Premium Glass Card Surface */}
       <div className="absolute inset-0 bg-[#001D4D]/80 backdrop-blur-md rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.6)] border border-[#D4AF37]/30 group-hover:border-[#D4AF37]/50 transition-colors duration-500 overflow-hidden" />
-      
+
       {/* Animated Subtle Glow */}
-      <div className="absolute -inset-[2px] rounded-[2.5rem] bg-gradient-to-br from-[#D4AF37]/20 via-transparent to-[#D4AF37]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+      <div className={`absolute -inset-[2px] rounded-[2.5rem] bg-gradient-to-br from-[#D4AF37]/20 via-transparent to-[#D4AF37]/20 transition-opacity duration-1000 pointer-events-none ${event.id === "marriage" ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        }`} />
 
       {/* Structured Content Grid */}
       <div className="relative p-8 md:p-14 flex flex-col items-center gap-10 translate-z-10">
-        
+
         {/* Header: The Title */}
         <div className="text-center w-full">
-          <h3 className="text-6xl md:text-7xl font-great-vibes text-transparent bg-clip-text bg-gradient-to-b from-[#F9E29C] via-[#D4AF37] to-[#B8860B] mb-2 py-2">
+          <h3 className="text-6xl md:text-7xl font-great-vibes text-transparent bg-clip-text bg-gradient-to-b from-[#F9E29C] via-[#D4AF37] to-[#B8860B] mb-2 py-4 leading-tight">
             {event.title}
           </h3>
           <div className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent mx-auto" />
@@ -222,7 +223,7 @@ function EventCard({ event, index, onDirections }: { event: any, index: number, 
 
         {/* Contextual Body: When & Where Grouping */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0 w-full max-w-3xl divide-y md:divide-y-0 md:divide-x divide-[#D4AF37]/20">
-          
+
           {/* Section: The When (Schedule) */}
           <div className="flex flex-col items-center justify-center p-6 space-y-4">
             <div className="bg-[#D4AF37]/10 p-3 rounded-2xl border border-[#D4AF37]/20">
@@ -260,7 +261,7 @@ function EventCard({ event, index, onDirections }: { event: any, index: number, 
         </div>
 
         {/* Action: Refined Button */}
-        <motion.button 
+        <motion.button
           whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(212,175,55,0.3)" }}
           whileTap={{ scale: 0.98 }}
           onClick={onDirections}
