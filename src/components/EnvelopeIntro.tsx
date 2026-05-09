@@ -43,14 +43,14 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
           onClick={onOpen}
         >
           <motion.div 
-            className="relative w-64 md:w-96 aspect-[4/3]"
+            className="relative w-full h-full"
             animate={{ y: [0, -10, 0] }}
             transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
           >
             <img 
               src="/IMG_9092.PNG" 
               alt="Envelope" 
-              className="w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]"
+              className="w-full h-full object-cover filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]"
             />
           </motion.div>
           
@@ -58,7 +58,7 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="absolute bottom-12 font-playfair text-primary/70 tracking-[0.3em] uppercase text-sm"
+            className="absolute bottom-12 z-10 font-playfair text-primary tracking-[0.3em] uppercase text-sm drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
           >
             Tap or scroll to open
           </motion.p>
