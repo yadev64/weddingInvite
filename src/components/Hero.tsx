@@ -110,7 +110,7 @@ export default function Hero() {
           The Wedding Celebration Of
         </motion.h2>
         
-        <SplitText text="Deepa" delay={0.5} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(227, 196, 168,0.3)] text-elegant-gradient" />
+        <SplitText text="Deepa" delay={0.5} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
         
         <motion.div 
           initial={{ opacity: 0, scale: 0.5 }}
@@ -121,7 +121,7 @@ export default function Hero() {
           &
         </motion.div>
         
-        <SplitText text="Yadev" delay={1.2} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(227, 196, 168,0.3)] text-elegant-gradient" />
+        <SplitText text="Yadev" delay={1.2} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
         
         <motion.p 
           initial={{ opacity: 0 }}
@@ -146,7 +146,7 @@ export default function Hero() {
           animate={{ y: [0, 15, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
         >
-          <ChevronDown className="text-primary w-8 h-8 opacity-90 drop-shadow-[0_0_5px_rgba(227, 196, 168,0.8)]" />
+          <ChevronDown className="text-primary w-8 h-8 opacity-90 drop-shadow-[0_0_5px_rgba(197, 160, 89,0.8)]" />
         </motion.div>
       </motion.div>
     </section>
