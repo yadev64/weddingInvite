@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 // Text splitting helper
 const SplitText = ({ text, className, delay = 0, isRevealed = true }: { text: string, className?: string, delay?: number, isRevealed?: boolean }) => {
   const letters = Array.from(text);
-  
+
   const container = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
@@ -80,14 +80,14 @@ export default function Hero({ isRevealed = true }: { isRevealed?: boolean }) {
   return (
     <section className="relative h-[120vh] w-full flex items-center justify-center overflow-hidden bg-background">
       {/* Cinematic Video Background */}
-      <motion.div 
-        style={{ y: yStars }} 
+      <motion.div
+        style={{ y: yStars }}
         className="absolute inset-0 w-full h-full z-0 pointer-events-none"
       >
-        <video 
-          autoPlay 
-          muted 
-          loop 
+        <video
+          autoPlay
+          muted
+          loop
           playsInline
           className="w-full h-full object-cover filter brightness-[0.6] contrast-[1.1] sepia-[0.2]"
         >
@@ -97,22 +97,22 @@ export default function Hero({ isRevealed = true }: { isRevealed?: boolean }) {
         <div className="absolute inset-0 bg-[#0B132B]/50" />
       </motion.div>
 
-      <motion.div 
+      <motion.div
         style={{ y: yText, opacity: opacityText }}
         className="relative z-20 flex flex-col items-center text-center px-4 mt-20 md:mt-0 pointer-events-none"
       >
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 1.5, delay: 0.5, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ duration: 1.5, delay: 0.1, ease: [0.76, 0, 0.24, 1] }}
           className="text-primary/90 font-playfair uppercase tracking-[0.4em] text-sm md:text-base mb-2 font-medium"
         >
           The Wedding Celebration Of
         </motion.h2>
-        
-        <SplitText text="Deepa" delay={0.5} isRevealed={isRevealed} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
-        
-        <motion.div 
+
+        <SplitText text="Deepa" delay={0.2} isRevealed={isRevealed} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
+
+        <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={isRevealed ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
           transition={{ duration: 1, delay: 1.5, ease: "backOut" }}
@@ -120,13 +120,13 @@ export default function Hero({ isRevealed = true }: { isRevealed?: boolean }) {
         >
           &
         </motion.div>
-        
-        <SplitText text="Yadev" delay={1.2} isRevealed={isRevealed} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
-        
-        <motion.p 
+
+        <SplitText text="Yadev" delay={0.8} isRevealed={isRevealed} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
+
+        <motion.p
           initial={{ opacity: 0 }}
           animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 2, delay: 2 }}
+          transition={{ duration: 2, delay: 1.2 }}
           className="text-white/80 font-playfair text-lg md:text-xl max-w-lg tracking-[0.3em] uppercase mt-4"
         >
           September 13th & 14th, 2026
@@ -135,10 +135,10 @@ export default function Hero({ isRevealed = true }: { isRevealed?: boolean }) {
 
       <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-background via-background/80 to-transparent z-30 pointer-events-none" />
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ delay: 2.5, duration: 1 }}
+        transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-10 z-40 flex flex-col items-center"
       >
         <span className="text-primary/70 font-playfair text-xs tracking-[0.3em] uppercase mb-3">Begin Journey</span>

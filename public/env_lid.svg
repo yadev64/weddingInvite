@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 306.65 115.56">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 12px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: #bc783b;
+        font-family: SnellRoundhand-Black, 'Snell Roundhand';
+        font-weight: 800;
+      }
+
+      .cls-4 {
+        fill: url(#Degradado_sin_nombre_41);
+      }
+
+      .cls-2 {
+        font-size: 23.64px;
+      }
+
+      .cls-3 {
+        font-size: 22.81px;
+      }
+    </style>
+    <linearGradient id="Degradado_sin_nombre_41" data-name="Degradado sin nombre 41" x1="153.32" y1="-611.96" x2="153.32" y2="-727.52" gradientTransform="translate(0 -611.96) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe6ca"/>
+      <stop offset=".25" stop-color="#ffebd6"/>
+      <stop offset=".62" stop-color="#fff0e2"/>
+      <stop offset="1" stop-color="#fff2e6"/>
+    </linearGradient>
+  </defs>
+  <g id="OBJECTS">
+    <g>
+      <path class="cls-4" d="m132.07,107.98L0,0h306.65l-132.07,107.98c-12.37,10.11-30.14,10.11-42.51,0Z"/>
+      <text class="cls-2" transform="translate(127.63 79.01)"><tspan x="0" y="0">D</tspan></text>
+      <text class="cls-1" transform="translate(148.4 82.02)"><tspan x="0" y="0">&amp;</tspan></text>
+      <text class="cls-3" transform="translate(155.58 90.16)"><tspan x="0" y="0">Y</tspan></text>
+    </g>
+  </g>
+</svg>
