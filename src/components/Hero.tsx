@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
 // Text splitting helper
-const SplitText = ({ text, className, delay = 0 }: { text: string, className?: string, delay?: number }) => {
+const SplitText = ({ text, className, delay = 0, isRevealed = true }: { text: string, className?: string, delay?: number, isRevealed?: boolean }) => {
   const letters = Array.from(text);
   
   const container = {
@@ -43,7 +43,7 @@ const SplitText = ({ text, className, delay = 0 }: { text: string, className?: s
       style={{ display: "inline-flex", overflow: "visible", perspective: "1000px" }}
       variants={container}
       initial="hidden"
-      animate="visible"
+      animate={isRevealed ? "visible" : "hidden"}
       className={className}
     >
       {letters.map((letter, index) => (
@@ -55,7 +55,7 @@ const SplitText = ({ text, className, delay = 0 }: { text: string, className?: s
   );
 };
 
-export default function Hero() {
+export default function Hero({ isRevealed = true }: { isRevealed?: boolean }) {
   const { scrollY } = useScroll();
   const yText = useTransform(scrollY, [0, 1000], [0, 400]);
   const yMoon = useTransform(scrollY, [0, 1000], [0, 150]);
@@ -103,29 +103,29 @@ export default function Hero() {
       >
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 1.5, delay: 0.5, ease: [0.76, 0, 0.24, 1] }}
           className="text-primary/90 font-playfair uppercase tracking-[0.4em] text-sm md:text-base mb-2 font-medium"
         >
           The Wedding Celebration Of
         </motion.h2>
         
-        <SplitText text="Deepa" delay={0.5} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
+        <SplitText text="Deepa" delay={0.5} isRevealed={isRevealed} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
         
         <motion.div 
           initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
+          animate={isRevealed ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
           transition={{ duration: 1, delay: 1.5, ease: "backOut" }}
           className="font-playfair text-4xl md:text-5xl text-primary italic my-[-10px] md:my-[-20px] z-10"
         >
           &
         </motion.div>
         
-        <SplitText text="Yadev" delay={1.2} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
+        <SplitText text="Yadev" delay={1.2} isRevealed={isRevealed} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
         
         <motion.p 
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 2, delay: 2 }}
           className="text-white/80 font-playfair text-lg md:text-xl max-w-lg tracking-[0.3em] uppercase mt-4"
         >
@@ -137,7 +137,7 @@ export default function Hero() {
 
       <motion.div 
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
         transition={{ delay: 2.5, duration: 1 }}
         className="absolute bottom-10 z-40 flex flex-col items-center"
       >
