@@ -36,7 +36,7 @@ export default function RSVP() {
           <span className="text-primary/70 font-playfair uppercase tracking-[0.4em] text-sm mb-4 inline-block">
             RSVP
           </span>
-          <h2 className="font-great-vibes text-7xl md:text-8xl text-primary mb-4 drop-shadow-[0_0_15px_rgba(255,215,0,0.4)]">
+          <h2 className="font-great-vibes text-7xl md:text-8xl mb-4 drop-shadow-[0_0_15px_rgba(212,175,55,0.4)] text-gold-gradient">
             Be Our Guest
           </h2>
         </motion.div>
