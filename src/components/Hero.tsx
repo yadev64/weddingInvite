@@ -134,21 +134,6 @@ export default function Hero({ isRevealed = true }: { isRevealed?: boolean }) {
       </motion.div>
 
       <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-background via-background/80 to-transparent z-30 pointer-events-none" />
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-10 z-40 flex flex-col items-center"
-      >
-        <span className="text-primary/70 font-playfair text-xs tracking-[0.3em] uppercase mb-3">Begin Journey</span>
-        <motion.div
-          animate={{ y: [0, 15, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        >
-          <ChevronDown className="text-primary w-8 h-8 opacity-90 drop-shadow-[0_0_5px_rgba(197, 160, 89,0.8)]" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }
