@@ -1,56 +1,100 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+
+const TextReveal = ({ children }: { children: React.ReactNode }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 80%", "end 40%"]
+  });
+
+  const words = children?.toString().split(" ") || [];
+  
+  return (
+    <div ref={ref} className="flex flex-wrap justify-center gap-x-3 gap-y-2">
+      {words.map((word, i) => {
+        const start = i / words.length;
+        const end = start + (1 / words.length);
+        const opacity = useTransform(scrollYProgress, [start, end], [0.1, 1]);
+        const y = useTransform(scrollYProgress, [start, end], [20, 0]);
+        
+        return (
+          <motion.span 
+            key={i} 
+            style={{ opacity, y }}
+            className="inline-block"
+          >
+            {word}
+          </motion.span>
+        );
+      })}
+    </div>
+  );
+};
 
 export default function Story() {
-  return (
-    <section className="py-24 px-6 bg-white overflow-hidden relative">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-background rounded-full -z-10 blur-3xl opacity-50 translate-x-1/2 -translate-y-1/2" />
-      
-      <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-        <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="w-full lg:w-1/2 relative"
-        >
-          <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl">
-            <img 
-              src="/PAJU2051.jpg" 
-              alt="Our Story" 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 ring-1 ring-inset ring-white/20 rounded-[2rem]" />
-          </div>
-        </motion.div>
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
 
+  const scaleImg = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  const opacityOverlay = useTransform(scrollYProgress, [0, 0.5, 1], [0.4, 0.7, 0.95]);
+
+  return (
+    <section ref={containerRef} className="relative h-[250vh] bg-background">
+      {/* Sticky Background Image */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         <motion.div 
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full lg:w-1/2 flex flex-col justify-center"
+          style={{ scale: scaleImg }}
+          className="absolute inset-0 w-full h-full"
         >
-          <span className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
-            Our Story
-          </span>
-          <h2 className="font-great-vibes text-5xl md:text-6xl text-foreground mb-6 leading-tight">
-            How we met...
-          </h2>
-          <div className="space-y-6 text-foreground/80 font-light leading-relaxed text-lg">
-            <p>
-              It all started with a simple hello. Two different paths crossed at exactly the right time, and what began as a beautiful friendship soon blossomed into a lifelong promise.
-            </p>
-            <p>
-              Through countless conversations, shared laughter, and unforgettable moments, we realized that our hearts had found their home. We couldn't be more excited to begin this new chapter together.
-            </p>
-          </div>
-          <div className="mt-10">
-            <p className="font-great-vibes text-4xl text-secondary">
-              Deepa & Yadev
-            </p>
-          </div>
+          <img 
+            src="/PAJU2051.jpg" 
+            alt="Our Story" 
+            className="w-full h-full object-cover object-center filter sepia-[0.2]"
+          />
         </motion.div>
+        {/* Overlay to ensure text readability */}
+        <motion.div 
+          style={{ opacity: opacityOverlay }}
+          className="absolute inset-0 bg-[#0B132B]" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />
+      </div>
+
+      {/* Scrollable Content */}
+      <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center pointer-events-none">
+        <div className="h-[50vh]" /> {/* Spacer */}
+        
+        <div className="max-w-4xl mx-auto px-6 text-center z-10 pointer-events-auto pb-[50vh]">
+          <motion.span 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-primary font-playfair tracking-[0.4em] uppercase text-sm mb-12 inline-block border-b border-primary/30 pb-4"
+          >
+            Chapter I
+          </motion.span>
+          
+          <h2 className="font-great-vibes text-7xl md:text-8xl lg:text-9xl text-white mb-24 drop-shadow-[0_0_20px_rgba(255,215,0,0.3)]">
+            How we met
+          </h2>
+          
+          <div className="space-y-20 text-foreground font-cormorant leading-relaxed text-3xl md:text-5xl lg:text-6xl font-light tracking-wide drop-shadow-xl">
+            <TextReveal>
+              It all started with a simple hello. Two paths crossed at exactly the right time.
+            </TextReveal>
+            <TextReveal>
+              What began as a beautiful friendship soon blossomed into a lifelong promise.
+            </TextReveal>
+            <TextReveal>
+              Through shared laughter, we realized our hearts had found their home.
+            </TextReveal>
+          </div>
+        </div>
       </div>
     </section>
   );

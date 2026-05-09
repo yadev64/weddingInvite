@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Great_Vibes, Cormorant_Infant } from "next/font/google";
+import { Great_Vibes, Cormorant_Infant, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const greatVibes = Great_Vibes({
   variable: "--font-great-vibes",
@@ -12,6 +13,12 @@ const cormorantInfant = Cormorant_Infant({
   variable: "--font-cormorant",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -27,10 +34,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${greatVibes.variable} ${cormorantInfant.variable} h-full antialiased`}
+      className={`${greatVibes.variable} ${cormorantInfant.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-cormorant bg-background text-foreground overflow-x-hidden">
-        {children}
+      <body className="min-h-full flex flex-col font-cormorant bg-background text-foreground overflow-x-hidden selection:bg-primary/30">
+        <div className="noise-overlay"></div>
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { ScrollTiltedGrid } from "@/components/ui/scroll-tilted-grid";
 
 const images = [
   "/IMG_8068.JPG",
@@ -11,42 +12,35 @@ const images = [
 
 export default function Gallery() {
   return (
-    <section className="py-24 px-4 md:px-8 bg-background">
+    <section className="py-24 px-4 md:px-8 bg-background relative overflow-hidden z-10">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      
       <div className="max-w-7xl mx-auto">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          transition={{ duration: 1 }}
+          className="text-center mb-16 relative z-20"
         >
-          <h2 className="font-great-vibes text-5xl md:text-6xl text-foreground mb-4">
+          <span className="text-primary font-playfair tracking-[0.3em] uppercase text-xs mb-6 inline-block">
+            Gallery
+          </span>
+          <h2 className="font-great-vibes text-6xl md:text-7xl text-white mb-4 drop-shadow-[0_0_10px_rgba(255,215,0,0.4)]">
             Captured Moments
           </h2>
-          <p className="text-foreground/70 uppercase tracking-widest text-sm font-medium">
-            Memories we cherish
-          </p>
         </motion.div>
 
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-          {images.map((src, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="relative overflow-hidden rounded-2xl group break-inside-avoid"
-            >
-              <img
-                src={src}
-                alt={`Gallery image ${index + 1}`}
-                className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </motion.div>
-          ))}
+        <div className="relative -mt-10">
+          <ScrollTiltedGrid 
+            images={images} 
+            loop={false}
+            aspectRatio="3/4"
+            maxWidth="lg"
+            gap={8}
+            rounded="1.5rem"
+          />
         </div>
       </div>
     </section>
