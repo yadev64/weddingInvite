@@ -16,11 +16,11 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
     
     const handleInteraction = () => {
       if (step === 0) {
-        setStep(1); // Open Flap
+        setStep(1); // Flap lifts slightly
         setTimeout(() => {
-          setStep(2); // Fall away
+          setStep(2); // Entire envelope blurs and fades
           setTimeout(() => onOpen(), 1000); // Reveal Hero
-        }, 1200);
+        }, 800);
       }
     };
 
@@ -42,8 +42,8 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
       {!isOpen && (
         <motion.div
           key="envelope"
-          animate={step === 2 ? { y: "100vh", opacity: 0 } : { y: 0, opacity: 1 }}
-          transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+          animate={step === 2 ? { opacity: 0, filter: "blur(20px)", scale: 1.05 } : { opacity: 1, filter: "blur(0px)", scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
           className="fixed inset-0 z-[100] bg-[#02132b] cursor-pointer overflow-hidden flex flex-col items-center justify-center"
           onClick={() => {
              if (step === 0) {
@@ -51,7 +51,7 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
                setTimeout(() => {
                  setStep(2);
                  setTimeout(() => onOpen(), 1000);
-               }, 1200);
+               }, 800);
              }
           }}
         >
@@ -70,9 +70,9 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
                <div className="absolute inset-0 bg-[#0047AB] shadow-[inset_0_0_100px_rgba(0,0,0,0.3)]" 
                     style={{ clipPath: 'polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 55%)' }}>
                   <TextureOverlay />
-                  {/* Bottom Corner Filigrees */}
-                  <CornerFiligree className="bottom-4 left-4 -rotate-90" />
-                  <CornerFiligree className="bottom-4 right-4 rotate-180" />
+                  {/* Simple Gold Border Lines */}
+                  <div className="absolute inset-4 border border-[#D4AF37]/50 pointer-events-none" />
+                  <div className="absolute inset-5 border border-[#D4AF37]/30 pointer-events-none" />
                </div>
             </div>
 
@@ -82,12 +82,12 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
                  <WaxSeal />
             </div>
 
-            {/* 4. The Flap Container (Rotates Backward) */}
+            {/* 4. The Flap Container (Lifts Slightly) */}
             <motion.div 
               className="absolute top-0 left-0 w-full h-[55%] z-20 pointer-events-none"
               style={{ transformStyle: 'preserve-3d', transformOrigin: 'top' }}
-              animate={{ rotateX: step >= 1 ? 180 : 0 }}
-              transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+              animate={{ rotateX: step >= 1 ? 45 : 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
                {/* Flap Paper (Clipped to V-Shape) */}
                <div className="absolute inset-0 bg-[#0047AB] shadow-[inset_0_0_50px_rgba(0,0,0,0.2)]"
@@ -96,14 +96,11 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
                       filter: 'drop-shadow(0 15px 15px rgba(0,0,0,0.4))'
                     }}>
                     <TextureOverlay />
-                    {/* Top Corner Filigrees */}
-                    <CornerFiligree className="top-4 left-4 rotate-0" />
-                    <CornerFiligree className="top-4 right-4 rotate-90" />
-                    {/* V-Flap Ornate Border */}
+                    {/* V-Flap Simple Gold Lines */}
                     <FlapBorder />
                </div>
 
-               {/* The Seal Top Half (Rotates perfectly with the flap) */}
+               {/* The Seal Top Half (Lifts with the flap) */}
                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-24 h-24 md:w-32 md:h-32 pointer-events-none"
                     style={{ clipPath: 'polygon(0 0, 100% 0, 100% 50%, 0 50%)' }}>
                     <WaxSeal />
@@ -132,33 +129,14 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
 // ----------------------------------------------------------------------
 
 const TextureOverlay = () => (
-  <div className="absolute inset-0 opacity-[0.25] mix-blend-overlay pointer-events-none" 
-       style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} />
-);
-
-const CornerFiligree = ({ className }: { className: string }) => (
-  <svg viewBox="0 0 100 100" className={`absolute w-20 h-20 md:w-32 md:h-32 opacity-90 pointer-events-none ${className}`} style={{ filter: 'drop-shadow(1px 2px 2px rgba(0,0,0,0.5))' }}>
-    <g stroke="#D4AF37" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M 5 5 C 40 5, 60 10, 75 25 C 90 40, 95 60, 95 95" strokeWidth="2" />
-      <path d="M 15 15 C 35 15, 45 20, 55 30 C 65 40, 70 50, 60 60 C 50 70, 40 65, 35 55 C 30 45, 40 35, 50 40" />
-      <path d="M 15 15 C 15 35, 20 45, 30 55 C 40 65, 50 70, 60 60 C 70 50, 65 40, 55 35 C 45 30, 35 40, 40 50" />
-      <path d="M 40 15 Q 50 10 55 15 Q 50 20 40 15" fill="#D4AF37" stroke="none" />
-      <path d="M 15 40 Q 10 50 15 55 Q 20 50 15 40" fill="#D4AF37" stroke="none" />
-      <path d="M 75 25 Q 85 20 90 25 Q 85 30 75 25" fill="#D4AF37" stroke="none" />
-      <path d="M 25 75 Q 20 85 25 90 Q 30 85 25 75" fill="#D4AF37" stroke="none" />
-      <circle cx="85" cy="45" r="1.5" fill="#D4AF37" stroke="none" />
-      <circle cx="45" cy="85" r="1.5" fill="#D4AF37" stroke="none" />
-      <circle cx="65" cy="15" r="1.5" fill="#D4AF37" stroke="none" />
-      <circle cx="15" cy="65" r="1.5" fill="#D4AF37" stroke="none" />
-    </g>
-  </svg>
+  <div className="absolute inset-0 opacity-[0.20] mix-blend-overlay pointer-events-none" 
+       style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} />
 );
 
 const FlapBorder = () => (
-  <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none" viewBox="0 0 1000 550" style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.3))' }}>
-     <path d="M 30 20 L 500 490 L 970 20" fill="none" stroke="#D4AF37" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-     <path d="M 45 30 L 500 470 L 955 30" fill="none" stroke="#D4AF37" strokeWidth="1.5" strokeDasharray="6, 6" />
-     <path d="M 60 40 L 500 450 L 940 40" fill="none" stroke="#D4AF37" strokeWidth="3" strokeDasharray="1, 20" strokeLinecap="round" />
+  <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none" viewBox="0 0 1000 550" style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.2))' }}>
+     <path d="M 15 15 L 500 520 L 985 15" fill="none" stroke="#D4AF37" strokeWidth="2" strokeOpacity="0.5" strokeLinecap="round" strokeLinejoin="round" />
+     <path d="M 25 25 L 500 510 L 975 25" fill="none" stroke="#D4AF37" strokeWidth="1" strokeOpacity="0.3" />
   </svg>
 );
 
@@ -171,8 +149,8 @@ const WaxSeal = () => (
        {/* Raised Irregular Rim / Indentation */}
        <div className="w-[82%] h-[82%] rounded-full flex items-center justify-center relative overflow-hidden"
             style={{
-              background: 'radial-gradient(circle at 50% 50%, #D4AF37 0%, #a38023 100%)',
-              boxShadow: 'inset 0 6px 12px rgba(0,0,0,0.7), inset 0 -2px 4px rgba(255,255,255,0.3), 0 2px 4px rgba(255,255,255,0.4)'
+               background: 'radial-gradient(circle at 50% 50%, #D4AF37 0%, #a38023 100%)',
+               boxShadow: 'inset 0 6px 12px rgba(0,0,0,0.7), inset 0 -2px 4px rgba(255,255,255,0.3), 0 2px 4px rgba(255,255,255,0.4)'
             }}>
             
             {/* Top Swirl */}
