@@ -6,6 +6,8 @@ import Events from "@/components/Events";
 import Gallery from "@/components/Gallery";
 import Footer from "@/components/Footer";
 import EnvelopeIntro from "@/components/EnvelopeIntro";
+import Navbar from "@/components/Navbar";
+import Countdown from "@/components/Countdown";
 
 export default function Home() {
   const [isEnvelopeOpen, setIsEnvelopeOpen] = useState(false);
@@ -25,11 +27,21 @@ export default function Home() {
 
   return (
     <main className="w-full">
+      <Navbar isVisible={isEnvelopeOpen} />
       <EnvelopeIntro isOpen={isEnvelopeOpen} onOpen={() => setIsEnvelopeOpen(true)} />
       <Hero isRevealed={isEnvelopeOpen} />
-      <Story />
-      <Events />
-      <Gallery />
+      
+      <Countdown />
+
+      <div id="story">
+        <Story />
+      </div>
+      <div id="events">
+        <Events />
+      </div>
+      <div id="gallery">
+        <Gallery />
+      </div>
       <Footer />
     </main>
   );
