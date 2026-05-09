@@ -13,21 +13,18 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
 
   useEffect(() => {
     setIsClient(true);
-    
     const handleInteraction = () => {
       if (step === 0) {
-        setStep(1); // Flap lifts slightly
+        setStep(1);
         setTimeout(() => {
-          setStep(2); // Blur & fade out
+          setStep(2);
           setTimeout(() => onOpen(), 1100);
         }, 900);
       }
     };
-
     window.addEventListener("wheel", handleInteraction, { passive: true });
     window.addEventListener("touchmove", handleInteraction, { passive: true });
     window.addEventListener("keydown", handleInteraction, { passive: true });
-
     return () => {
       window.removeEventListener("wheel", handleInteraction);
       window.removeEventListener("touchmove", handleInteraction);
@@ -41,153 +38,106 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
     <AnimatePresence>
       {!isOpen && (
         <motion.div
-          key="envelope"
-          animate={
-            step === 2
-              ? { opacity: 0, filter: "blur(24px)", scale: 1.06 }
-              : { opacity: 1, filter: "blur(0px)", scale: 1 }
-          }
+          key="envelope-intro"
+          animate={step === 2 ? { opacity: 0, filter: "blur(28px)", scale: 1.07 } : { opacity: 1, filter: "blur(0px)", scale: 1 }}
           transition={{ duration: 1.1, ease: "easeInOut" }}
           className="fixed inset-0 z-[100] cursor-pointer overflow-hidden flex flex-col items-center justify-center"
-          style={{
-            background: "radial-gradient(ellipse at center, #0a1f3d 0%, #040d1d 60%, #020a16 100%)"
-          }}
+          style={{ background: "radial-gradient(ellipse at 50% 45%, #08193a 0%, #030d1f 55%, #010813 100%)" }}
           onClick={() => {
             if (step === 0) {
               setStep(1);
-              setTimeout(() => {
-                setStep(2);
-                setTimeout(() => onOpen(), 1100);
-              }, 900);
+              setTimeout(() => { setStep(2); setTimeout(() => onOpen(), 1100); }, 900);
             }
           }}
         >
-          {/* Ambient glow behind envelope */}
-          <div
-            className="absolute pointer-events-none"
-            style={{
-              width: "75vw",
-              height: "50vw",
-              maxWidth: "900px",
-              background: "radial-gradient(ellipse, rgba(0,71,171,0.25) 0%, transparent 70%)",
-              filter: "blur(40px)",
-            }}
-          />
+          {/* Ambient blue glow */}
+          <div className="absolute pointer-events-none" style={{
+            width: "80vw", height: "55vw", maxWidth: "950px",
+            background: "radial-gradient(ellipse, rgba(0,60,150,0.2) 0%, transparent 70%)",
+            filter: "blur(50px)",
+          }} />
 
-          {/* Main Envelope Container */}
+          {/* Envelope Assembly */}
           <motion.div
-            className="relative w-[92vw] md:w-[78vw] lg:w-[58vw] max-w-3xl"
-            style={{ aspectRatio: "1.5 / 1", perspective: "2000px" }}
-            animate={step === 0 ? { y: [0, -8, 0] } : { y: 0 }}
-            transition={{
-              repeat: step === 0 ? Infinity : 0,
-              duration: 4,
-              ease: "easeInOut",
-            }}
+            className="relative"
+            style={{ width: "min(92vw, 700px)", aspectRatio: "1.52 / 1", perspective: "2500px" }}
+            animate={step === 0 ? { y: [0, -9, 0] } : { y: 0 }}
+            transition={{ repeat: step === 0 ? Infinity : 0, duration: 3.8, ease: "easeInOut" }}
           >
-            {/* ── SHADOW ── */}
-            <div
-              className="absolute -bottom-6 left-[5%] w-[90%] h-8 rounded-full pointer-events-none"
-              style={{
-                background: "rgba(0,0,0,0.5)",
-                filter: "blur(14px)",
-              }}
-            />
+            {/* Ground shadow */}
+            <div className="absolute -bottom-5 left-[8%] w-[84%] h-6 rounded-full pointer-events-none" style={{
+              background: "rgba(0,0,0,0.55)", filter: "blur(18px)",
+            }} />
 
-            {/* ── INTERIOR (shows when flap lifts) ── */}
-            <div
-              className="absolute inset-0 rounded-md overflow-hidden"
-              style={{
-                background: "linear-gradient(to bottom, #001233 0%, #002060 60%, #0a2e6b 100%)",
-                boxShadow: "inset 0 30px 60px rgba(0,0,0,0.9)",
-              }}
-            />
+            {/* Interior darkness */}
+            <div className="absolute inset-0 rounded-[3px]" style={{
+              background: "linear-gradient(to bottom, #001030 0%, #001d5e 80%)",
+              boxShadow: "inset 0 25px 50px rgba(0,0,0,0.9)",
+            }} />
 
-            {/* ── ENVELOPE BODY (clips away the flap area) ── */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                clipPath: "polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 54%)",
-                background: "linear-gradient(160deg, #1557c7 0%, #0047AB 40%, #003a8c 100%)",
-                boxShadow: "inset 0 0 80px rgba(0,0,0,0.4)",
-              }}
-            >
-              <TextureOverlay />
-              {/* Gold border inset lines */}
-              <div className="absolute inset-[6px] pointer-events-none" style={{
-                borderTop: "none",
-                borderLeft: "1px solid rgba(212,175,55,0.45)",
-                borderRight: "1px solid rgba(212,175,55,0.45)",
-                borderBottom: "1px solid rgba(212,175,55,0.45)",
-                clipPath: "polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 54%)",
-              }} />
-              <div className="absolute inset-[10px] pointer-events-none" style={{
-                borderTop: "none",
-                borderLeft: "1px solid rgba(212,175,55,0.2)",
-                borderRight: "1px solid rgba(212,175,55,0.2)",
-                borderBottom: "1px solid rgba(212,175,55,0.2)",
-                clipPath: "polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 54%)",
-              }} />
+            {/* Body – everything below the V flap */}
+            <div className="absolute inset-0 pointer-events-none" style={{
+              clipPath: "polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 53%)",
+              background: "linear-gradient(150deg, #1a5fd4 0%, #0047AB 45%, #003590 100%)",
+              boxShadow: "inset -60px 0 80px rgba(0,0,30,0.35), inset 60px 0 80px rgba(0,0,30,0.35)",
+            }}>
+              <PaperTexture />
+              {/* Body border – double gold lines following envelope edges */}
+              <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 760 500">
+                <path d="M 10 10 L 10 490 L 750 490 L 750 10 L 380 265" fill="none" stroke="#D4AF37" strokeWidth="1.8" strokeOpacity="0.5" strokeLinejoin="round" />
+                <path d="M 17 17 L 17 483 L 743 483 L 743 17 L 380 272" fill="none" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.25" strokeLinejoin="round" />
+              </svg>
             </div>
 
-            {/* ── SEAL (bottom half, stays on body) ── */}
-            <div
-              className="absolute left-1/2 z-10 w-28 h-28 md:w-36 md:h-36 pointer-events-none"
-              style={{
-                top: "54%",
-                transform: "translateX(-50%) translateY(-50%)",
-                clipPath: "polygon(0 50%, 100% 50%, 100% 100%, 0 100%)",
-              }}
-            >
+            {/* Horizontal crease line where flap meets body */}
+            <div className="absolute left-0 right-0 pointer-events-none" style={{
+              top: "53%", height: "1px",
+              background: "linear-gradient(to right, transparent, rgba(0,20,60,0.8) 20%, rgba(0,20,60,0.8) 80%, transparent)",
+            }} />
+
+            {/* Seal – bottom half only (anchored to body) */}
+            <div className="absolute left-1/2 z-10 pointer-events-none"
+              style={{ top: "53%", transform: "translateX(-50%) translateY(-50%)", width: "clamp(100px,18vw,130px)", height: "clamp(100px,18vw,130px)", clipPath: "polygon(0 50%, 100% 50%, 100% 100%, 0 100%)" }}>
               <WaxSeal />
             </div>
 
-            {/* ── FLAP (animates on interaction) ── */}
+            {/* Flap – lifts slightly on step 1 */}
             <motion.div
-              className="absolute top-0 left-0 w-full pointer-events-none z-20"
-              style={{
-                height: "54%",
-                transformStyle: "preserve-3d",
-                transformOrigin: "top center",
-              }}
-              animate={{ rotateX: step >= 1 ? 50 : 0 }}
-              transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
+              className="absolute top-0 left-0 w-full z-20 pointer-events-none"
+              style={{ height: "53%", transformStyle: "preserve-3d", transformOrigin: "top center" }}
+              animate={{ rotateX: step >= 1 ? 48 : 0 }}
+              transition={{ duration: 0.95, ease: [0.4, 0, 0.2, 1] }}
             >
               {/* Flap paper */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                  background: "linear-gradient(170deg, #1c60d0 0%, #0047AB 55%, #003a8c 100%)",
-                  filter: "drop-shadow(0 18px 24px rgba(0,0,0,0.55))",
-                }}
-              >
-                <TextureOverlay />
-                {/* Gold flap V-edge lines */}
-                <FlapBorder />
+              <div className="absolute inset-0" style={{
+                clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+                background: "linear-gradient(165deg, #2268d8 0%, #0b50c0 40%, #003a96 100%)",
+                filter: "drop-shadow(0 20px 28px rgba(0,0,0,0.6))",
+              }}>
+                <PaperTexture />
+                {/* Flap border lines following V-edge */}
+                <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 760 405">
+                  <path d="M 8 8 L 380 398 L 752 8" fill="none" stroke="#D4AF37" strokeWidth="1.8" strokeOpacity="0.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M 15 15 L 380 388 L 745 15" fill="none" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.25" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </div>
 
-              {/* Flap: Seal top half */}
-              <div
-                className="absolute bottom-0 left-1/2 w-28 h-28 md:w-36 md:h-36 pointer-events-none"
-                style={{
-                  transform: "translateX(-50%) translateY(50%)",
-                  clipPath: "polygon(0 0, 100% 0, 100% 50%, 0 50%)",
-                }}
-              >
+              {/* Seal – top half (lifts with the flap) */}
+              <div className="absolute bottom-0 left-1/2 pointer-events-none"
+                style={{ transform: "translateX(-50%) translateY(50%)", width: "clamp(100px,18vw,130px)", height: "clamp(100px,18vw,130px)", clipPath: "polygon(0 0, 100% 0, 100% 50%, 0 50%)" }}>
                 <WaxSeal />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* ── HINT TEXT ── */}
+          {/* Tap hint */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: step === 0 ? 1 : 0 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            className="absolute bottom-10 font-playfair text-[#D4AF37]/80 tracking-[0.35em] uppercase text-xs md:text-sm pointer-events-none"
+            transition={{ delay: 1.5, duration: 0.9 }}
+            className="absolute bottom-10 font-playfair text-[#C5A059]/75 tracking-[0.4em] uppercase text-[11px] md:text-xs pointer-events-none"
           >
-            Tap to open
+            tap to open
           </motion.p>
         </motion.div>
       )}
@@ -195,124 +145,129 @@ export default function EnvelopeIntro({ onOpen, isOpen }: EnvelopeIntroProps) {
   );
 }
 
-// ─────────────────────────────────────────────────
-// Sub-components
-// ─────────────────────────────────────────────────
-
-const TextureOverlay = () => (
-  <div
-    className="absolute inset-0 opacity-[0.18] mix-blend-overlay pointer-events-none"
-    style={{
-      backgroundImage:
-        'url("data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E")',
-    }}
-  />
+// ─── Paper Texture ────────────────────────────────────────────────────────────
+const PaperTexture = () => (
+  <>
+    {/* Fine linen fiber noise */}
+    <div className="absolute inset-0 pointer-events-none" style={{
+      opacity: 0.12, mixBlendMode: "overlay",
+      backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+    }} />
+    {/* Edge vignette to give paper depth */}
+    <div className="absolute inset-0 pointer-events-none" style={{
+      background: "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.22) 100%)",
+    }} />
+  </>
 );
 
-const FlapBorder = () => (
-  <svg
-    className="absolute inset-0 w-full h-full pointer-events-none"
-    preserveAspectRatio="none"
-    viewBox="0 0 1000 540"
-  >
-    {/* Primary gold edge */}
-    <path
-      d="M 10 8 L 500 530 L 990 8"
-      fill="none"
-      stroke="#D4AF37"
-      strokeWidth="2.5"
-      strokeOpacity="0.55"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    {/* Secondary inset line */}
-    <path
-      d="M 22 18 L 500 516 L 978 18"
-      fill="none"
-      stroke="#D4AF37"
-      strokeWidth="1"
-      strokeOpacity="0.3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
+// ─── Wax Seal ─────────────────────────────────────────────────────────────────
 const WaxSeal = () => (
-  <div
-    className="w-full h-full rounded-full flex items-center justify-center relative"
-    style={{
-      background:
-        "radial-gradient(circle at 32% 28%, #f5d97a 0%, #c9a227 35%, #9a7318 70%, #5a3e0a 100%)",
-      boxShadow:
-        "inset 0 5px 8px rgba(255,255,255,0.55), inset 0 -6px 14px rgba(0,0,0,0.75), 0 12px 28px rgba(0,0,0,0.7)",
-    }}
+  <svg
+    viewBox="0 0 200 200"
+    className="w-full h-full"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    {/* Rim ring */}
-    <div
-      className="absolute inset-[6%] rounded-full"
-      style={{
-        border: "2px solid rgba(90,62,10,0.5)",
-        boxShadow:
-          "inset 0 4px 10px rgba(0,0,0,0.6), 0 2px 4px rgba(255,230,100,0.25)",
-        background:
-          "radial-gradient(circle at 45% 40%, #d4af37 0%, #9a7318 100%)",
-      }}
-    >
-      {/* Top scroll swirl */}
-      <svg
-        viewBox="0 0 60 22"
-        className="absolute w-9 h-4 top-[16%] left-1/2 -translate-x-1/2 opacity-80"
-        style={{
-          filter:
-            "drop-shadow(0.5px 1px 0 rgba(255,230,100,0.4)) drop-shadow(-0.5px -0.5px 1px rgba(0,0,0,0.7))",
-        }}
-      >
-        <path
-          d="M 5 11 Q 15 2, 30 11 Q 45 20, 55 11"
-          fill="none"
-          stroke="#4a3008"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <circle cx="5" cy="11" r="2" fill="#4a3008" />
-        <circle cx="55" cy="11" r="2" fill="#4a3008" />
-      </svg>
+    <defs>
+      {/* Organic wax bump texture */}
+      <filter id="wax-texture" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="8" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+        <feGaussianBlur in="displaced" stdDeviation="0.5" />
+      </filter>
+      {/* Emboss filter for pressed-in design */}
+      <filter id="emboss" x="-5%" y="-5%" width="110%" height="110%">
+        <feGaussianBlur stdDeviation="1.2" result="blur" />
+        <feSpecularLighting in="blur" surfaceScale="4" specularConstant="0.8" specularExponent="18" lightingColor="#c8941a" result="spec">
+          <fePointLight x="80" y="60" z="120" />
+        </feSpecularLighting>
+        <feComposite in="spec" in2="SourceGraphic" operator="in" result="specOut" />
+        <feBlend in="SourceGraphic" in2="specOut" mode="screen" />
+      </filter>
+      {/* Inset shadow for debossed letters */}
+      <filter id="deboss" x="-10%" y="-10%" width="120%" height="120%">
+        <feGaussianBlur stdDeviation="1.5" result="blur" />
+        <feOffset dx="1" dy="1.5" result="offset" />
+        <feComposite in="offset" in2="SourceGraphic" operator="in" />
+      </filter>
 
-      {/* D&Y Monogram */}
-      <span
-        className="font-great-vibes text-[1.6rem] md:text-[2.1rem] text-[#3b2606] z-10 leading-none mt-1"
-        style={{
-          textShadow:
-            "1px 1.5px 1px rgba(255,215,80,0.5), -0.5px -1px 2px rgba(0,0,0,0.8)",
-          letterSpacing: "-0.02em",
-        }}
-      >
-        D&Y
-      </span>
+      {/* Wax radial gradient – mimics light from top-left */}
+      <radialGradient id="wax-grad" cx="38%" cy="32%" r="62%" fx="35%" fy="28%">
+        <stop offset="0%" stopColor="#f0d06a" />
+        <stop offset="18%" stopColor="#d4a820" />
+        <stop offset="50%" stopColor="#b08010" />
+        <stop offset="78%" stopColor="#7a5508" />
+        <stop offset="100%" stopColor="#3d2304" />
+      </radialGradient>
 
-      {/* Laurel wreath */}
-      <svg
-        viewBox="0 0 100 44"
-        className="absolute bottom-[13%] left-1/2 -translate-x-1/2 w-[56%] h-auto opacity-85"
-        style={{
-          filter:
-            "drop-shadow(0.5px 1px 0 rgba(255,230,100,0.4)) drop-shadow(-0.5px -0.5px 1px rgba(0,0,0,0.6))",
-        }}
-      >
-        {/* Left branch */}
-        <path d="M 50 40 C 35 38, 18 30, 12 14" fill="none" stroke="#4a3008" strokeWidth="1.8" strokeLinecap="round" />
-        <path d="M 12 14 Q 8 7, 14 7 Q 18 13, 12 14" fill="#4a3008" />
-        <path d="M 22 28 Q 17 22, 22 20 Q 26 26, 22 28" fill="#4a3008" />
-        <path d="M 32 36 Q 27 30, 33 29 Q 37 34, 32 36" fill="#4a3008" />
-        {/* Right branch */}
-        <path d="M 50 40 C 65 38, 82 30, 88 14" fill="none" stroke="#4a3008" strokeWidth="1.8" strokeLinecap="round" />
-        <path d="M 88 14 Q 92 7, 86 7 Q 82 13, 88 14" fill="#4a3008" />
-        <path d="M 78 28 Q 83 22, 78 20 Q 74 26, 78 28" fill="#4a3008" />
-        <path d="M 68 36 Q 73 30, 67 29 Q 63 34, 68 36" fill="#4a3008" />
-        {/* Center stem */}
-        <circle cx="50" cy="41" r="2" fill="#4a3008" />
-      </svg>
-    </div>
-  </div>
+      {/* Highlight overlay */}
+      <radialGradient id="wax-shine" cx="35%" cy="28%" r="45%">
+        <stop offset="0%" stopColor="rgba(255,245,190,0.55)" />
+        <stop offset="100%" stopColor="rgba(255,245,190,0)" />
+      </radialGradient>
+
+      {/* Inner recessed stamp area */}
+      <radialGradient id="stamp-grad" cx="50%" cy="45%" r="55%">
+        <stop offset="0%" stopColor="#c9991a" />
+        <stop offset="60%" stopColor="#a07510" />
+        <stop offset="100%" stopColor="#6b4c08" />
+      </radialGradient>
+    </defs>
+
+    {/* ── Outer wax blob (organic with filter) ── */}
+    <circle cx="100" cy="100" r="92" fill="url(#wax-grad)" filter="url(#wax-texture)" />
+
+    {/* ── Highlight sheen ── */}
+    <circle cx="100" cy="100" r="92" fill="url(#wax-shine)" />
+
+    {/* ── Raised rim ring ── */}
+    <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(80,50,5,0.5)" strokeWidth="4" />
+    <circle cx="100" cy="100" r="77" fill="none" stroke="rgba(255,230,120,0.25)" strokeWidth="1.5" />
+
+    {/* ── Recessed stamp face ── */}
+    <circle cx="100" cy="100" r="72" fill="url(#stamp-grad)" style={{ filter: "drop-shadow(inset 0 3px 6px rgba(0,0,0,0.9))" }} />
+
+    {/* ── All embossed content as a single group with emboss filter ── */}
+    <g filter="url(#emboss)">
+      {/* Top decorative flourish */}
+      <path d="M 70 70 Q 85 62, 100 66 Q 115 62, 130 70" fill="none" stroke="#3d2500" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M 78 68 Q 83 60, 78 55 Q 74 62, 78 68" fill="#3d2500" />
+      <path d="M 122 68 Q 127 60, 122 55 Q 118 62, 122 68" fill="#3d2500" />
+      <circle cx="100" cy="64" r="2.5" fill="#3d2500" />
+
+      {/* D & Y monogram – hand-drawn paths for elegant script style */}
+      {/* "D" – left side */}
+      <path
+        d="M 76 82 L 76 118 M 76 82 Q 102 80, 102 100 Q 102 120, 76 118"
+        fill="none" stroke="#3d2500" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"
+      />
+      {/* "&" – small ampersand */}
+      <path
+        d="M 108 105 Q 105 96, 111 93 Q 117 90, 117 97 Q 117 107, 105 114 L 119 114 M 108 105 L 119 114"
+        fill="none" stroke="#3d2500" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+      />
+      {/* "Y" – right side */}
+      <path
+        d="M 126 82 L 139 95 M 152 82 L 139 95 L 139 118"
+        fill="none" stroke="#3d2500" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"
+      />
+
+      {/* Laurel wreath – left branch */}
+      <path d="M 100 130 C 85 128, 68 122, 58 110" fill="none" stroke="#3d2500" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M 68 118 Q 62 111, 67 107 Q 72 112, 68 118" fill="#3d2500" />
+      <path d="M 78 126 Q 72 119, 77 115 Q 82 120, 78 126" fill="#3d2500" />
+      <path d="M 90 130 Q 84 123, 89 119 Q 94 124, 90 130" fill="#3d2500" />
+      {/* Laurel wreath – right branch */}
+      <path d="M 100 130 C 115 128, 132 122, 142 110" fill="none" stroke="#3d2500" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M 132 118 Q 138 111, 133 107 Q 128 112, 132 118" fill="#3d2500" />
+      <path d="M 122 126 Q 128 119, 123 115 Q 118 120, 122 126" fill="#3d2500" />
+      <path d="M 110 130 Q 116 123, 111 119 Q 106 124, 110 130" fill="#3d2500" />
+      {/* Center berries */}
+      <circle cx="96" cy="134" r="2" fill="#3d2500" />
+      <circle cx="100" cy="136" r="2.5" fill="#3d2500" />
+      <circle cx="104" cy="134" r="2" fill="#3d2500" />
+    </g>
+
+    {/* ── Subtle reflected rim highlight ── */}
+    <path d="M 28 75 Q 22 100, 28 125" fill="none" stroke="rgba(255,230,100,0.3)" strokeWidth="5" strokeLinecap="round" />
+  </svg>
 );
