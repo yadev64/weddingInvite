@@ -40,12 +40,12 @@ export default function Events() {
           <span className="text-primary/70 font-playfair uppercase tracking-[0.4em] text-sm mb-4 inline-block">
             Chapter II
           </span>
-          <h2 className="font-great-vibes text-7xl md:text-8xl mb-4 drop-shadow-[0_0_15px_rgba(225, 211, 193,0.4)] text-elegant-gradient">
+          <h2 className="font-great-vibes text-7xl md:text-8xl mb-4 drop-shadow-[0_0_15px_rgba(227, 196, 168,0.4)] text-elegant-gradient">
             Auspicious Events
           </h2>
           <div className="flex items-center justify-center gap-4 mt-8">
             <div className="h-px w-24 bg-gradient-to-r from-transparent to-primary/50" />
-            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(225, 211, 193,1)]" />
+            <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(227, 196, 168,1)]" />
             <div className="h-px w-24 bg-gradient-to-l from-transparent to-primary/50" />
           </div>
         </motion.div>
@@ -124,7 +124,7 @@ function EventBlock({ event, index }: { event: any, index: number }) {
           <img 
             src={event.image} 
             alt={event.title} 
-            className="w-full h-full object-cover rounded-2xl border border-primary/30 shadow-[0_0_40px_rgba(225, 211, 193,0.15)] translate-z-[20px]"
+            className="w-full h-full object-cover rounded-2xl border border-primary/30 shadow-[0_0_40px_rgba(227, 196, 168,0.15)] translate-z-[20px]"
             style={{ transform: "translateZ(20px)" }}
           />
           
@@ -142,13 +142,13 @@ function EventBlock({ event, index }: { event: any, index: number }) {
         transition={{ duration: 1, delay: 0.3, ease: [0.76, 0, 0.24, 1] }}
         className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left"
       >
-        <h3 className="text-6xl font-great-vibes text-primary mb-8 drop-shadow-[0_0_15px_rgba(225, 211, 193,0.4)]">
+        <h3 className="text-6xl font-great-vibes text-primary mb-8 drop-shadow-[0_0_15px_rgba(227, 196, 168,0.4)]">
           {event.title}
         </h3>
         
         <div className="space-y-8 mb-10 w-full border-l-0 lg:border-l-2 border-primary/30 pl-0 lg:pl-8">
           <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 text-foreground/90">
-            <CalendarHeart className="w-8 h-8 text-primary shrink-0 mt-1 drop-shadow-[0_0_5px_rgba(225, 211, 193,0.8)]" />
+            <CalendarHeart className="w-8 h-8 text-primary shrink-0 mt-1 drop-shadow-[0_0_5px_rgba(227, 196, 168,0.8)]" />
             <div>
               <div className="font-playfair text-2xl font-medium tracking-wide">{event.date}</div>
               <div className="text-sm text-foreground/60 font-cormorant tracking-[0.2em] uppercase mt-2">{event.time}</div>
@@ -156,7 +156,7 @@ function EventBlock({ event, index }: { event: any, index: number }) {
           </div>
           
           <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 text-foreground/90">
-            <MapPin className="w-8 h-8 text-primary shrink-0 mt-1 drop-shadow-[0_0_5px_rgba(225, 211, 193,0.8)]" />
+            <MapPin className="w-8 h-8 text-primary shrink-0 mt-1 drop-shadow-[0_0_5px_rgba(227, 196, 168,0.8)]" />
             <div className="font-playfair text-2xl font-medium tracking-wide leading-snug">{event.venue}</div>
           </div>
         </div>
@@ -166,7 +166,7 @@ function EventBlock({ event, index }: { event: any, index: number }) {
         </p>
         
         <div className="mt-12">
-          <button className="px-10 py-4 rounded-full bg-transparent border border-primary text-primary hover:bg-primary hover:text-background hover:shadow-[0_0_30px_rgba(225, 211, 193,0.6)] transition-all duration-700 font-playfair tracking-[0.2em] text-sm uppercase group">
+          <button className="px-10 py-4 rounded-full bg-transparent border border-primary text-primary hover:bg-primary hover:text-background hover:shadow-[0_0_30px_rgba(227, 196, 168,0.6)] transition-all duration-700 font-playfair tracking-[0.2em] text-sm uppercase group">
             View on Map
           </button>
         </div>

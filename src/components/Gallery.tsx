@@ -25,7 +25,7 @@ function ParallaxImage({ src, index }: { src: string, index: number }) {
     <div ref={ref} className={`relative w-full ${aspectClass}`}>
       <motion.div 
         style={{ y }}
-        className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(225, 211, 193,0.15)] border border-primary/20 group cursor-pointer"
+        className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(227, 196, 168,0.15)] border border-primary/20 group cursor-pointer"
       >
         <img 
           src={src} 
@@ -55,7 +55,7 @@ export default function Gallery() {
           <span className="text-primary font-playfair tracking-[0.3em] uppercase text-xs mb-6 inline-block">
             Gallery
           </span>
-          <h2 className="font-great-vibes text-6xl md:text-8xl mb-4 drop-shadow-[0_0_20px_rgba(225, 211, 193,0.3)] text-elegant-gradient">
+          <h2 className="font-great-vibes text-6xl md:text-8xl mb-4 drop-shadow-[0_0_20px_rgba(227, 196, 168,0.3)] text-elegant-gradient">
             Captured Moments
           </h2>
         </motion.div>
