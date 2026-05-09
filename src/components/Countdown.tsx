@@ -11,7 +11,7 @@ interface TimeLeft {
 }
 
 const TimeUnit = memo(({ value, label }: { value: number, label: string }) => (
-  <div className="flex flex-col items-center min-w-[70px] md:min-w-[120px]">
+  <div className="flex flex-col items-center min-w-[55px] md:min-w-[120px]">
     <motion.div 
       key={value}
       initial={{ y: 10, opacity: 0 }}
@@ -97,20 +97,20 @@ export default function Countdown() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="relative inline-block"
+          className="relative inline-block w-full max-w-full"
         >
           {/* Ornate Frame */}
-          <div className="absolute -inset-8 border border-[#D4AF37]/10 rounded-[3rem] pointer-events-none" />
-          <div className="absolute -inset-4 border border-[#D4AF37]/20 rounded-[2.5rem] pointer-events-none shadow-[0_0_50px_rgba(212,175,55,0.05)]" />
+          <div className="absolute -inset-4 md:-inset-8 border border-[#D4AF37]/10 rounded-[2rem] md:rounded-[3rem] pointer-events-none" />
+          <div className="absolute -inset-2 md:-inset-4 border border-[#D4AF37]/20 rounded-[1.5rem] md:rounded-[2.5rem] pointer-events-none shadow-[0_0_50px_rgba(212,175,55,0.05)]" />
           
-          <div className="relative bg-[#001D4D]/40 backdrop-blur-md px-6 md:px-16 py-10 md:py-14 rounded-[2rem] border border-[#D4AF37]/30 shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
-            <div className="flex items-center justify-center gap-2 md:gap-4">
+          <div className="relative bg-[#001D4D]/40 backdrop-blur-md px-4 md:px-16 py-8 md:py-14 rounded-[1.5rem] md:rounded-[2rem] border border-[#D4AF37]/30 shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
+            <div className="flex items-center justify-center gap-1 md:gap-4">
               <TimeUnit value={timeLeft.days} label="Days" />
-              <div className="h-12 w-px bg-[#D4AF37]/20 self-start mt-2" />
+              <div className="h-10 md:h-12 w-px bg-[#D4AF37]/20 self-start mt-2" />
               <TimeUnit value={timeLeft.hours} label="Hours" />
-              <div className="h-12 w-px bg-[#D4AF37]/20 self-start mt-2" />
+              <div className="h-10 md:h-12 w-px bg-[#D4AF37]/20 self-start mt-2" />
               <TimeUnit value={timeLeft.minutes} label="Minutes" />
-              <div className="h-12 w-px bg-[#D4AF37]/20 self-start mt-2" />
+              <div className="h-10 md:h-12 w-px bg-[#D4AF37]/20 self-start mt-2" />
               <TimeUnit value={timeLeft.seconds} label="Seconds" />
             </div>
             
