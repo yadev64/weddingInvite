@@ -14,11 +14,9 @@ const SLIDES = [
   { src: "/assets/pexels-couple.jpg", title: "One promise", sub: "Our first yes" },
   { src: "/IMG_8070.JPG", title: "Golden hours", sub: "Every sunset, together" },
   { src: "/assets/marigold.jpg", title: "Marigolds", sub: "For the mandap & the moment" },
-  { src: "/assets/pexels-mehndi.jpg", title: "The mehndi", sub: "Hands painted in stories" },
   { src: "/PAJU1794.jpg", title: "Frozen in time", sub: "A heartbeat, captured" },
   { src: "/assets/pexels-diya.jpg", title: "Lighting the way", sub: "One lamp for every blessing" },
   { src: "/IMG_8071.JPG", title: "Celebrations", sub: "Laughter that echoes" },
-  { src: "/assets/pexels-sindoor.jpg", title: "The sacred thread", sub: "Tied, not just by ritual" },
   { src: "/PAJU2051.jpg", title: "Us", sub: "Deepa & Yadev" },
 ] as const;
 
