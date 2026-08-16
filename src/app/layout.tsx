@@ -33,6 +33,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://deepa.yadev.cc"),
   title: "Deepa & Yadev — Save the Date",
   description:
     "Join us as we celebrate our wedding — 13th & 14th September, 2026. Vaikom Mahadeva Temple · Central Auditorium.",
@@ -41,6 +42,11 @@ export const metadata: Metadata = {
     description:
       "Join us as we celebrate our wedding — 13th & 14th September, 2026.",
     type: "website",
+    images: ["/share-card.jpg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/share-card.jpg"],
   },
 };
 
