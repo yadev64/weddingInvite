@@ -13,6 +13,7 @@ import { CornerFiligree, MiniDivider } from "./Ornaments";
 
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? "";
 const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ?? "";
+const CONFIGURED = Boolean(CLOUD_NAME && UPLOAD_PRESET);
 
 const MAX_DIM = 1600;
 const JPEG_QUALITY = 0.82;
@@ -66,7 +67,13 @@ function uploadWithProgress(
       if (xhr.status >= 200 && xhr.status < 300) {
         resolve(JSON.parse(xhr.responseText));
       } else {
-        reject(new Error(xhr.responseText || "Upload failed"));
+        let reason = "Upload failed";
+        try {
+          reason = JSON.parse(xhr.responseText)?.error?.message || reason;
+        } catch {
+          /* non-JSON error body */
+        }
+        reject(new Error(reason));
       }
     };
     xhr.onerror = () => reject(new Error("Network error"));
@@ -107,6 +114,11 @@ export default function ShareMoments() {
       setThankName(name.trim());
       return;
     }
+    if (!CONFIGURED) {
+      setStatus("error");
+      setError("Photo sharing is temporarily unavailable — please try again later.");
+      return;
+    }
     setStatus("uploading");
     setProgress(0);
     try {
@@ -121,9 +133,7 @@ export default function ShareMoments() {
     } catch (e) {
       setStatus("error");
       setError(
-        e instanceof Error && e.message.includes("{")
-          ? "The upload was rejected — please try a smaller photo."
-          : "Something went wrong uploading. Please try again.",
+        e instanceof Error ? `Upload was rejected: ${e.message}` : "Something went wrong uploading. Please try again.",
       );
     }
   };
