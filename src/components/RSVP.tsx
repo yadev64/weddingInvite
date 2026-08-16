@@ -17,12 +17,12 @@ export default function RSVP() {
   const [submitted, setSubmitted] = useState(false);
 
   const composed = [
-    "Namaste! I would like to RSVP for the wedding of Deepa & Yadev.",
+    "Hello! We are absolutely thrilled to RSVP for your wedding! ✨\n",
     `Name: ${name || "—"}`,
     attendance === "accept"
-      ? `Attendance: Joyfully accepting · ${guests} guest${guests > 1 ? "s" : ""}`
+      ? `Attendance: Joyfully accepting! 🎉 · ${guests} guest${guests > 1 ? "s" : ""}`
       : "Attendance: Regretfully declining",
-    message ? `Wishes for the couple: ${message}` : null,
+    message ? `Wishes for the happy couple: ${message}` : null,
   ]
     .filter(Boolean)
     .join("\n");
