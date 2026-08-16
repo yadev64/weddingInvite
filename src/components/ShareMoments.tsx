@@ -341,6 +341,12 @@ export default function ShareMoments() {
                     Photos stay private with us — only the ones we curate appear
                     on the site.
                   </p>
+                  <a
+                    href="/gallery"
+                    className="text-center font-caps text-[10px] tracking-[0.4em] uppercase text-gold-light underline underline-offset-4 hover:text-ivory transition-colors"
+                  >
+                    View the public gallery →
+                  </a>
                 </motion.div>
               )}
             </AnimatePresence>

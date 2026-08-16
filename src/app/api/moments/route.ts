@@ -29,6 +29,8 @@ export async function GET() {
 
     interface MomentResource {
   public_id: string;
+  width: number;
+  height: number;
   context?: { custom?: Record<string, string> };
 }
 
@@ -37,18 +39,23 @@ const items = (result.resources ?? []).map((r: MomentResource) => ({
       url: cloudinary.url(r.public_id, {
         fetch_format: "auto",
         quality: "auto",
-        crop: "fill",
-        gravity: "auto",
-        width: 900,
+        width: 700,
+      }),
+      full: cloudinary.url(r.public_id, {
+        fetch_format: "auto",
+        quality: "auto",
+        width: 1600,
       }),
       thumb: cloudinary.url(r.public_id, {
         fetch_format: "auto",
         quality: "auto",
         crop: "fill",
         gravity: "auto",
-        width: 500,
-        height: 500,
+        width: 400,
+        height: 400,
       }),
+      width: r.width,
+      height: r.height,
       name: r.context?.custom?.guest_name ?? "",
     }));
 

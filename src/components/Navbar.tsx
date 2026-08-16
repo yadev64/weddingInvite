@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = [
   { name: "Our Story", href: "#story" },
   { name: "Events", href: "#events" },
   { name: "Gallery", href: "#gallery" },
+  { name: "Guest Moments", href: "/gallery" },
   { name: "RSVP", href: "#rsvp" },
 ];
 
@@ -56,15 +58,25 @@ export default function Navbar({ isVisible }: { isVisible: boolean }) {
                   : "bg-transparent border-transparent"
               }`}
             >
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="px-4 py-1.5 font-caps text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-ivory/65 hover:text-gold-light transition-colors duration-300 rounded-full hover:bg-gold/10"
-                >
-                  {link.name}
-                </a>
-              ))}
+              {NAV_LINKS.map((link) =>
+                link.href.startsWith("/") ? (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className="px-4 py-1.5 font-caps text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-ivory/65 hover:text-gold-light transition-colors duration-300 rounded-full hover:bg-gold/10"
+                  >
+                    {link.name}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="px-4 py-1.5 font-caps text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-ivory/65 hover:text-gold-light transition-colors duration-300 rounded-full hover:bg-gold/10"
+                  >
+                    {link.name}
+                  </a>
+                ),
+              )}
             </nav>
 
             {/* Mobile menu-less: just RSVP link */}

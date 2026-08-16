@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { MiniDivider, Lotus } from "./Ornaments";
 
 export default function Footer() {
@@ -25,6 +26,12 @@ export default function Footer() {
         <p className="mt-4 font-serif italic text-ivory/30 text-sm">
           Crafted with love for our family &amp; friends.
         </p>
+        <Link
+          href="/gallery"
+          className="mt-10 inline-block font-caps text-[10px] tracking-[0.4em] uppercase text-gold/60 hover:text-gold-light transition-colors border border-gold/25 rounded-full px-6 py-3"
+        >
+          View the Public Gallery
+        </Link>
       </div>
     </footer>
   );
