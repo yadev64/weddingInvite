@@ -1,139 +1,151 @@
 "use client";
+
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { CornerFiligree, ArchFrame, MiniDivider } from "./Ornaments";
 
-// Text splitting helper
-const SplitText = ({ text, className, delay = 0, isRevealed = true }: { text: string, className?: string, delay?: number, isRevealed?: boolean }) => {
-  const letters = Array.from(text);
+const EASE = [0.76, 0, 0.24, 1] as const;
 
-  const container = {
-    hidden: { opacity: 0 },
-    visible: (i = 1) => ({
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: delay * i },
-    }),
-  };
-
-  const child: any = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-    hidden: {
-      opacity: 0,
-      y: 100,
-      rotateX: 90,
-      transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-  };
-
+function Reveal({
+  children,
+  delay,
+  className,
+}: {
+  children: React.ReactNode;
+  delay: number;
+  className?: string;
+}) {
   return (
     <motion.div
-      style={{ display: "inline-flex", overflow: "visible", perspective: "1000px" }}
-      variants={container}
-      initial="hidden"
-      animate={isRevealed ? "visible" : "hidden"}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1.4, delay, ease: EASE }}
       className={className}
     >
-      {letters.map((letter, index) => (
-        <motion.span variants={child} key={index} className="inline-block origin-bottom py-8 px-1">
-          {letter === " " ? "\u00A0" : letter}
-        </motion.span>
-      ))}
+      {children}
     </motion.div>
   );
-};
+}
 
-export default function Hero({ isRevealed = true }: { isRevealed?: boolean }) {
+export default function Hero() {
   const { scrollY } = useScroll();
-  const yText = useTransform(scrollY, [0, 1000], [0, 400]);
-  const yMoon = useTransform(scrollY, [0, 1000], [0, 150]);
-  const scaleMoon = useTransform(scrollY, [0, 1000], [1, 1.2]);
-  const yStars = useTransform(scrollY, [0, 1000], [0, 50]);
-  const opacityText = useTransform(scrollY, [0, 500], [1, 0]);
-
-  const [stars, setStars] = useState<{ id: number; left: string; top: string; delay: string; duration: string; opacity: string }[]>([]);
-
-  useEffect(() => {
-    const newStars = Array.from({ length: 200 }).map((_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      delay: `${Math.random() * 3}s`,
-      duration: `${3 + Math.random() * 4}s`,
-      opacity: `${0.3 + Math.random() * 0.7}`
-    }));
-    setStars(newStars);
-  }, []);
+  const yContent = useTransform(scrollY, [0, 900], [0, 240]);
+  const yFrame = useTransform(scrollY, [0, 900], [0, 120]);
+  const opacity = useTransform(scrollY, [0, 600], [1, 0]);
+  const scaleVideo = useTransform(scrollY, [0, 900], [1, 1.15]);
 
   return (
-    <section className="relative h-[120vh] w-full flex items-center justify-center overflow-hidden bg-background">
-      {/* Cinematic Video Background */}
-      <motion.div
-        style={{ y: yStars }}
-        className="absolute inset-0 w-full h-full z-0 pointer-events-none"
-      >
+    <section
+      id="top"
+      className="relative h-[112svh] w-full flex items-center justify-center overflow-hidden bg-night"
+    >
+      {/* Cinematic video */}
+      <motion.div style={{ scale: scaleVideo }} className="absolute inset-0 z-0">
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="w-full h-full object-cover filter brightness-[0.6] contrast-[1.1] sepia-[0.2]"
+          preload="metadata"
+          poster="/PAJU2051.jpg"
+          className="w-full h-full object-cover"
+          style={{
+            filter:
+              "brightness(0.5) contrast(1.08) saturate(0.82) sepia(0.25)",
+          }}
         >
           <source src="/engagement.mp4" type="video/mp4" />
         </video>
-        {/* Navy Overlay to ensure text readability */}
-        <div className="absolute inset-0 bg-[#0B132B]/50" />
+
+        {/* Grade overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-night/70 via-transparent to-night" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(6,10,20,0.55)_100%)]" />
+        <div className="absolute inset-0 bg-gold/10 mix-blend-soft-light" />
       </motion.div>
 
+      {/* Film grain */}
+      <div className="grain absolute inset-0 z-[1]" />
+
+      {/* Gold frame + filigree */}
       <motion.div
-        style={{ y: yText, opacity: opacityText }}
-        className="relative z-20 flex flex-col items-center text-center px-4 mt-20 md:mt-0 pointer-events-none"
+        style={{ y: yFrame }}
+        className="absolute inset-3 md:inset-5 z-[2] pointer-events-none"
       >
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 1.5, delay: 0.1, ease: [0.76, 0, 0.24, 1] }}
-          className="text-primary/90 font-playfair uppercase tracking-[0.4em] text-sm md:text-base mb-2 font-medium"
-        >
-          The Wedding Celebration Of
-        </motion.h2>
-
-        <SplitText text="Deepa" delay={0.2} isRevealed={isRevealed} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={isRevealed ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
-          transition={{ duration: 1, delay: 1.5, ease: "backOut" }}
-          className="font-playfair text-4xl md:text-5xl text-primary italic my-[-10px] md:my-[-20px] z-10"
-        >
-          &
-        </motion.div>
-
-        <SplitText text="Yadev" delay={0.8} isRevealed={isRevealed} className="font-great-vibes text-7xl md:text-8xl lg:text-[10rem] drop-shadow-[0_0_20px_rgba(197, 160, 89,0.3)] text-elegant-gradient" />
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 2, delay: 1.2 }}
-          className="text-white/80 font-playfair text-lg md:text-xl max-w-lg tracking-[0.3em] uppercase mt-4"
-        >
-          September 13th & 14th, 2026
-        </motion.p>
+        <div className="absolute inset-0 border border-gold/25" />
+        <div className="absolute inset-2 border border-gold/10" />
+        <CornerFiligree className="absolute top-2 left-2 w-14 h-14 md:w-20 md:h-20 text-gold/40" />
+        <CornerFiligree className="absolute top-2 right-2 w-14 h-14 md:w-20 md:h-20 text-gold/40 rotate-90" />
+        <CornerFiligree className="absolute bottom-2 right-2 w-14 h-14 md:w-20 md:h-20 text-gold/40 rotate-180" />
+        <CornerFiligree className="absolute bottom-2 left-2 w-14 h-14 md:w-20 md:h-20 text-gold/40 -rotate-90" />
       </motion.div>
 
-      <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-background via-background/80 to-transparent z-30 pointer-events-none" />
+      {/* Temple arch watermark */}
+      <div className="absolute inset-0 z-[1] flex items-center justify-center pointer-events-none">
+        <ArchFrame className="h-[92%] w-auto text-gold/[0.05]" />
+      </div>
+
+      {/* Content */}
+      <motion.div
+        style={{ y: yContent, opacity }}
+        className="relative z-30 flex flex-col items-center text-center px-5 pt-10"
+      >
+        <Reveal delay={0.2}>
+          <p className="font-caps text-[10px] md:text-xs tracking-[0.6em] uppercase text-gold/80 mb-6">
+            The Wedding Celebration Of
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.45} className="w-full">
+          <h1 className="font-script text-gold-sheen text-7xl sm:text-8xl lg:text-[9.5rem] leading-[1.1] py-2 drop-shadow-[0_6px_40px_rgba(6,10,20,0.8)]">
+            Deepa
+          </h1>
+        </Reveal>
+
+        <Reveal delay={0.75}>
+          <div className="flex items-center justify-center gap-4 md:gap-6 my-2 md:my-0">
+            <span className="h-px w-12 md:w-20 bg-gradient-to-r from-transparent to-gold/50" />
+            <span className="font-serif italic text-2xl md:text-4xl text-gold-light">
+              &
+            </span>
+            <span className="h-px w-12 md:w-20 bg-gradient-to-l from-transparent to-gold/50" />
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.95} className="w-full">
+          <h1 className="font-script text-gold-sheen text-7xl sm:text-8xl lg:text-[9.5rem] leading-[1.15] py-2 drop-shadow-[0_6px_40px_rgba(6,10,20,0.8)]">
+            Yadev
+          </h1>
+        </Reveal>
+
+        <Reveal delay={1.25}>
+          <div className="text-gold/50 mt-7 w-52 md:w-64">
+            <MiniDivider className="w-full" />
+          </div>
+        </Reveal>
+
+        <Reveal delay={1.45}>
+          <p className="font-caps text-xs md:text-sm tracking-[0.45em] uppercase text-ivory/85 mt-6">
+            13th &amp; 14th September 2026
+          </p>
+          <p className="font-serif italic text-ivory/50 text-sm md:text-base mt-2 tracking-[0.15em]">
+            Vaikom Mahadeva Temple · Kerala
+          </p>
+        </Reveal>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.4, duration: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
+      >
+        <span className="font-caps text-[9px] tracking-[0.5em] uppercase text-ivory/40">
+          Scroll
+        </span>
+        <div className="w-px h-12 bg-gradient-to-b from-gold/60 to-transparent relative overflow-hidden">
+          <span className="scroll-dot absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-gold-light" />
+        </div>
+      </motion.div>
     </section>
   );
 }

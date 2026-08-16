@@ -1,7 +1,10 @@
 "use client";
+
 import { useEffect, useState, memo } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, Heart } from "lucide-react";
+import { MandalaDivider, CornerFiligree } from "./Ornaments";
+
+const TARGET = new Date("2026-09-13T10:00:00").getTime();
 
 interface TimeLeft {
   days: number;
@@ -10,17 +13,20 @@ interface TimeLeft {
   seconds: number;
 }
 
-const TimeUnit = memo(({ value, label }: { value: number, label: string }) => (
-  <div className="flex flex-col items-center min-w-[55px] md:min-w-[120px]">
-    <motion.div 
-      key={value}
-      initial={{ y: 10, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="text-4xl md:text-6xl font-playfair text-transparent bg-clip-text bg-gradient-to-b from-[#F9E29C] to-[#D4AF37] drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] mb-1"
-    >
-      {value.toString().padStart(2, "0")}
-    </motion.div>
-    <div className="text-[10px] md:text-xs font-playfair uppercase tracking-[0.3em] text-white/40">
+const TimeUnit = memo(({ value, label }: { value: number; label: string }) => (
+  <div className="flex flex-col items-center min-w-[64px] md:min-w-[128px]">
+    <div className="relative overflow-visible">
+      <motion.span
+        key={value}
+        initial={{ y: 18, opacity: 0, filter: "blur(3px)" }}
+        animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="font-caps font-semibold text-4xl md:text-6xl lg:text-7xl text-gold-deep tabular-nums drop-shadow-[0_2px_10px_rgba(201,162,39,0.25)]"
+      >
+        {value.toString().padStart(2, "0")}
+      </motion.span>
+    </div>
+    <div className="mt-3 font-caps text-[9px] md:text-[11px] uppercase tracking-[0.45em] text-crimson/70">
       {label}
     </div>
   </div>
@@ -29,111 +35,105 @@ const TimeUnit = memo(({ value, label }: { value: number, label: string }) => (
 TimeUnit.displayName = "TimeUnit";
 
 export default function Countdown() {
-  const targetDate = new Date("2026-09-13T10:00:00").getTime();
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [time, setTime] = useState<TimeLeft>({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-
-      if (distance < 0) {
-        clearInterval(timer);
-        return;
-      }
-
-      const newDays = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const newHours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const newMinutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const newSeconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      setTimeLeft(prev => {
-        if (prev.days === newDays && prev.hours === newHours && prev.minutes === newMinutes && prev.seconds === newSeconds) {
-          return prev;
-        }
-        return {
-          days: newDays,
-          hours: newHours,
-          minutes: newMinutes,
-          seconds: newSeconds
-        };
+    const tick = () => {
+      const distance = TARGET - Date.now();
+      if (distance <= 0) return;
+      setTime({
+        days: Math.floor(distance / 86400000),
+        hours: Math.floor((distance % 86400000) / 3600000),
+        minutes: Math.floor((distance % 3600000) / 60000),
+        seconds: Math.floor((distance % 60000) / 1000),
       });
-    }, 1000);
-
-    return () => clearInterval(timer);
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
   }, []);
 
   return (
-    <div className="relative py-24 md:py-32 overflow-hidden bg-background">
-      {/* Decorative background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl aspect-square bg-[#D4AF37]/5 rounded-full blur-[100px] pointer-events-none" />
-      
-      <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
+    <section className="relative py-24 md:py-36 overflow-hidden bg-ivory text-ink">
+      {/* Paper texture + ambient */}
+      <div className="absolute inset-0 paper-texture opacity-[0.06]" />
+      <div className="absolute top-[-30%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gold/10 blur-[120px]" />
+      <div className="absolute bottom-[-30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-rose/5 blur-[120px]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gold/[0.07] w-[640px] max-w-[110vw]">
+        <MandalaDivider className="w-full h-auto" />
+      </div>
+
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="mb-12"
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="h-px w-8 bg-[#D4AF37]/30" />
-            <Heart className="w-4 h-4 text-[#D4AF37] fill-[#D4AF37]/20" />
-            <div className="h-px w-8 bg-[#D4AF37]/30" />
-          </div>
-          
-          <h2 className="font-great-vibes text-5xl md:text-6xl text-elegant-gradient py-4 mb-4 leading-tight">
-            The Countdown Begins
-          </h2>
-          
-          <p className="font-playfair text-[#D4AF37]/80 uppercase tracking-[0.4em] text-[10px] md:text-xs font-medium">
-            Until our lifelong journey starts
+          <p className="font-caps text-[10px] md:text-xs tracking-[0.6em] uppercase text-crimson/80 mb-5">
+            Save the Date
           </p>
-        </motion.div>
-
-        {/* Countdown Card */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="relative inline-block w-full max-w-full"
-        >
-          {/* Ornate Frame */}
-          <div className="absolute -inset-4 md:-inset-8 border border-[#D4AF37]/10 rounded-[2rem] md:rounded-[3rem] pointer-events-none" />
-          <div className="absolute -inset-2 md:-inset-4 border border-[#D4AF37]/20 rounded-[1.5rem] md:rounded-[2.5rem] pointer-events-none shadow-[0_0_50px_rgba(212,175,55,0.05)]" />
-          
-          <div className="relative bg-[#001D4D]/40 backdrop-blur-md px-4 md:px-16 py-8 md:py-14 rounded-[1.5rem] md:rounded-[2rem] border border-[#D4AF37]/30 shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
-            <div className="flex items-center justify-center gap-1 md:gap-4">
-              <TimeUnit value={timeLeft.days} label="Days" />
-              <div className="h-10 md:h-12 w-px bg-[#D4AF37]/20 self-start mt-2" />
-              <TimeUnit value={timeLeft.hours} label="Hours" />
-              <div className="h-10 md:h-12 w-px bg-[#D4AF37]/20 self-start mt-2" />
-              <TimeUnit value={timeLeft.minutes} label="Minutes" />
-              <div className="h-10 md:h-12 w-px bg-[#D4AF37]/20 self-start mt-2" />
-              <TimeUnit value={timeLeft.seconds} label="Seconds" />
-            </div>
-            
-            {/* Sparkle Icons */}
-            <Sparkles className="absolute -top-4 -right-4 w-8 h-8 text-[#D4AF37]/40 animate-pulse" />
-            <Sparkles className="absolute -bottom-4 -left-4 w-6 h-6 text-[#D4AF37]/30 animate-pulse delay-700" />
+          <h2 className="font-script text-gold-deep text-6xl md:text-7xl lg:text-8xl leading-tight drop-shadow-[0_3px_20px_rgba(201,162,39,0.25)]">
+            Counting down to forever
+          </h2>
+          <div className="text-gold/60 mt-8 w-64 mx-auto">
+            <MandalaDivider className="w-full" />
           </div>
         </motion.div>
 
+        {/* Ornate countdown panel */}
         <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 1.1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto mt-16 md:mt-20 max-w-3xl"
+        >
+          {/* Frame */}
+          <div className="absolute inset-0 border border-gold/40 rounded-[2rem] md:rounded-[2.5rem]" />
+          <div className="absolute inset-3 border border-gold/20 rounded-[1.6rem] md:rounded-[2.1rem]" />
+          <div className="absolute inset-6 border border-gold/10 rounded-[1.3rem] md:rounded-[1.7rem]" />
+          <CornerFiligree className="absolute -top-3 -left-3 w-14 h-14 md:w-16 md:h-16 text-gold/70" />
+          <CornerFiligree className="absolute -top-3 -right-3 w-14 h-14 md:w-16 md:h-16 text-gold/70 rotate-90" />
+          <CornerFiligree className="absolute -bottom-3 -right-3 w-14 h-14 md:w-16 md:h-16 text-gold/70 rotate-180" />
+          <CornerFiligree className="absolute -bottom-3 -left-3 w-14 h-14 md:w-16 md:h-16 text-gold/70 -rotate-90" />
+
+          <div className="relative bg-mist/80 backdrop-blur-sm rounded-[2rem] md:rounded-[2.5rem] px-6 py-10 md:py-14 shadow-[inset_0_0_60px_rgba(201,162,39,0.06)]">
+            <div className="flex items-center justify-center gap-2 md:gap-5">
+              <TimeUnit value={time.days} label="Days" />
+              <span className="font-caps text-gold/50 text-2xl md:text-4xl pb-8 hidden sm:block">
+                ·
+              </span>
+              <TimeUnit value={time.hours} label="Hours" />
+              <span className="font-caps text-gold/50 text-2xl md:text-4xl pb-8 hidden sm:block">
+                ·
+              </span>
+              <TimeUnit value={time.minutes} label="Minutes" />
+              <span className="font-caps text-gold/50 text-2xl md:text-4xl pb-8 hidden sm:block">
+                ·
+              </span>
+              <TimeUnit value={time.seconds} label="Seconds" />
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 2, delay: 0.8 }}
-          className="mt-12"
+          transition={{ duration: 1.4, delay: 0.4 }}
+          className="mt-12 font-serif italic text-ink/60 text-base md:text-lg"
         >
-          <div className="flex items-center justify-center gap-6">
-             <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#D4AF37]/40" />
-             <span className="font-playfair italic text-white/40 text-sm tracking-widest">SAVE THE DATE</span>
-             <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#D4AF37]/40" />
-          </div>
-        </motion.div>
+          Join us at the sacred grounds of{" "}
+          <span className="text-crimson">Vaikom Mahadeva Temple</span> on the
+          morning of the 13th.
+        </motion.p>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,65 +1,81 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const NAV_LINKS = [
+  { name: "Our Story", href: "#story" },
+  { name: "Events", href: "#events" },
+  { name: "Gallery", href: "#gallery" },
+  { name: "RSVP", href: "#rsvp" },
+];
+
 export default function Navbar({ isVisible }: { isVisible: boolean }) {
   const [scrolled, setScrolled] = useState(false);
-
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-      
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / totalHeight) * 100;
-      setScrollProgress(progress);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      const total =
+        document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(total > 0 ? (window.scrollY / total) * 100 : 0);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const navLinks = [
-    { name: "Story", href: "#story" },
-    { name: "Events", href: "#events" },
-    { name: "Gallery", href: "#gallery" },
-  ];
 
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.nav
-          initial={{ y: -100, opacity: 0 }}
+        <motion.header
+          initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -100, opacity: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed top-0 left-0 w-full z-[100] pointer-events-none"
+          exit={{ y: -80, opacity: 0 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed top-0 left-0 w-full z-[90] pointer-events-none"
         >
-          {/* Scroll Progress Bar */}
-          <div className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-[#D4AF37]/20 via-[#D4AF37] to-[#D4AF37]/20 transition-all duration-300" style={{ width: `${scrollProgress}%` }} />
-          
-          <div className={`w-full px-6 py-4 transition-all duration-500 pointer-events-auto ${
-            scrolled ? "mt-4" : "mt-0"
-          }`}>
-            <div className={`max-w-fit mx-auto px-8 py-3 rounded-full border transition-all duration-500 ${
-              scrolled 
-                ? "bg-[#001D4D]/80 backdrop-blur-md border-[#D4AF37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.3)]" 
-                : "bg-transparent border-transparent"
-            }`}>
-              <div className="flex items-center gap-8 md:gap-12">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="font-playfair text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/70 hover:text-[#D4AF37] transition-colors"
-                  >
-                    {link.name}
-                  </a>
-                ))}
-              </div>
-            </div>
+          {/* Gold progress hairline */}
+          <div className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent transition-all duration-200" style={{ width: `${progress}%` }} />
+
+          <div className="max-w-6xl mx-auto px-5 md:px-8 pt-4 md:pt-5 flex items-center justify-between">
+            {/* Monogram */}
+            <a
+              href="#top"
+              className="pointer-events-auto flex items-baseline gap-2 font-script text-2xl md:text-3xl text-gold-light drop-shadow-[0_0_18px_rgba(201,162,39,0.35)]"
+            >
+              D <span className="text-[11px] font-caps tracking-widest">♥</span> Y
+            </a>
+
+            {/* Links pill */}
+            <nav
+              className={`pointer-events-auto hidden md:flex items-center gap-1 rounded-full px-2 py-1.5 border transition-all duration-500 ${
+                scrolled
+                  ? "bg-night/75 backdrop-blur-xl border-gold/20 shadow-[0_10px_40px_rgba(0,0,0,0.4)]"
+                  : "bg-transparent border-transparent"
+              }`}
+            >
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="px-4 py-1.5 font-caps text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-ivory/65 hover:text-gold-light transition-colors duration-300 rounded-full hover:bg-gold/10"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+
+            {/* Mobile menu-less: just RSVP link */}
+            <a
+              href="#rsvp"
+              className="pointer-events-auto md:hidden font-caps text-[10px] tracking-[0.25em] uppercase text-gold-light border border-gold/30 rounded-full px-4 py-2"
+            >
+              RSVP
+            </a>
           </div>
-        </motion.nav>
+        </motion.header>
       )}
     </AnimatePresence>
   );

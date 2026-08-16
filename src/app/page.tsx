@@ -1,49 +1,47 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import Story from "@/components/Story";
 import Events from "@/components/Events";
 import Gallery from "@/components/Gallery";
 import Footer from "@/components/Footer";
-import EnvelopeIntro from "@/components/EnvelopeIntro";
+import Intro from "@/components/Intro";
 import Navbar from "@/components/Navbar";
 import Countdown from "@/components/Countdown";
+import RSVP from "@/components/RSVP";
 import BackgroundMusic from "@/components/BackgroundMusic";
 
 export default function Home() {
-  const [isEnvelopeOpen, setIsEnvelopeOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Prevent scrolling on body when envelope is closed
+  // Lock scroll while the invitation is closed
   useEffect(() => {
-    if (!isEnvelopeOpen) {
+    if (!isOpen) {
       document.body.style.overflow = "hidden";
-    } else {
-      // Small delay to allow the exit animation to play smoothly before enabling scroll
-      setTimeout(() => {
+      return () => {
         document.body.style.overflow = "";
         document.body.style.overflowX = "hidden";
-      }, 500);
+      };
     }
-  }, [isEnvelopeOpen]);
+    const t = setTimeout(() => {
+      document.body.style.overflow = "";
+      document.body.style.overflowX = "hidden";
+    }, 600);
+    return () => clearTimeout(t);
+  }, [isOpen]);
 
   return (
     <main className="w-full">
-      <Navbar isVisible={isEnvelopeOpen} />
-      <BackgroundMusic isRevealed={isEnvelopeOpen} />
-      <EnvelopeIntro isOpen={isEnvelopeOpen} onOpen={() => setIsEnvelopeOpen(true)} />
-      <Hero isRevealed={isEnvelopeOpen} />
-      
+      <Navbar isVisible={isOpen} />
+      <BackgroundMusic isRevealed={isOpen} />
+      <Intro isOpen={isOpen} onOpen={() => setIsOpen(true)} />
+      <Hero />
       <Countdown />
-
-      <div id="story">
-        <Story />
-      </div>
-      <div id="events">
-        <Events />
-      </div>
-      <div id="gallery">
-        <Gallery />
-      </div>
+      <Story />
+      <Events />
+      <Gallery />
+      <RSVP />
       <Footer />
     </main>
   );

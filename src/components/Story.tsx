@@ -1,161 +1,257 @@
 "use client";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef } from "react";
-import { Heart, Sparkles } from "lucide-react";
 
-const TextReveal = ({ children }: { children: React.ReactNode }) => {
-  const ref = useRef(null);
+import { useRef } from "react";
+import Image from "next/image";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+} from "framer-motion";
+import { MandalaDivider } from "./Ornaments";
+
+/** A single word that reveals as its own scroll window passes. */
+function Word({
+  word,
+  progress,
+  start,
+  end,
+}: {
+  word: string;
+  progress: ReturnType<typeof useScroll>["scrollYProgress"];
+  start: number;
+  end: number;
+}) {
+  const opacity = useTransform(progress, [start, end], [0.08, 1]);
+  const y = useTransform(progress, [start, end], [16, 0]);
+  const blur = useTransform(progress, [start, end], [3, 0]);
+  return (
+    <motion.span
+      style={{ opacity, y, filter: `blur(${blur}px)` }}
+      className="inline-block font-serif font-light text-3xl md:text-5xl lg:text-6xl text-ivory leading-snug tracking-wide"
+    >
+      {word}
+    </motion.span>
+  );
+}
+
+/** Word-by-word cinematic reveal driven by scroll position. */
+function TextReveal({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 85%", "end 45%"]
+    offset: ["start 92%", "end 55%"],
   });
 
   const words = children?.toString().split(" ") || [];
-  
+
   return (
-    <div ref={ref} className="flex flex-wrap justify-center gap-x-3 gap-y-4 max-w-5xl mx-auto">
-      {words.map((word, i) => {
-        const start = i / words.length;
-        const end = start + (1 / words.length);
-        const opacity = useTransform(scrollYProgress, [start, end], [0.1, 1]);
-        const scale = useTransform(scrollYProgress, [start, end], [0.95, 1]);
-        const blur = useTransform(scrollYProgress, [start, end], ["4px", "0px"]);
-        
-        return (
-          <motion.span 
-            key={i} 
-            style={{ opacity, scale, filter: `blur(${blur})` }}
-            className="inline-block font-cormorant text-4xl md:text-6xl lg:text-7xl text-white font-light tracking-wide drop-shadow-2xl"
-          >
-            {word}
-          </motion.span>
-        );
-      })}
+    <div
+      ref={ref}
+      className="flex flex-wrap justify-center gap-x-3 gap-y-3 md:gap-x-4 max-w-4xl mx-auto"
+    >
+      {words.map((word, i) => (
+        <Word
+          key={i}
+          word={word}
+          progress={scrollYProgress}
+          start={i / words.length}
+          end={(i + 1) / words.length}
+        />
+      ))}
     </div>
   );
-};
+}
+
+const CHAPTERS = [
+  {
+    no: "I",
+    title: "How we met",
+    body: "It all started with a simple hello. Two paths crossed at exactly the right time — in a world full of noise, we somehow found each other.",
+  },
+  {
+    no: "II",
+    title: "What grew between us",
+    body: "What began as a beautiful friendship soon blossomed into a lifelong promise. Every shared smile carried us a step closer to forever.",
+  },
+  {
+    no: "III",
+    title: "The day we said yes",
+    body: "Through shared laughter and quiet moments of understanding, we realised our hearts had finally found their way back home.",
+  },
+];
 
 export default function Story() {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
   });
 
-  const scrollYProgressSpring = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
+  const spring = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 28,
+    restDelta: 0.001,
   });
 
-  const scaleImg = useTransform(scrollYProgress, [0, 1], [1.1, 1.3]);
-  const opacityOverlay = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.6, 0.8, 0.8, 0.95]);
-  const lineExtent = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  
-  // Parallax elements
-  const yHeart1 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const yHeart2 = useTransform(scrollYProgress, [0, 1], [0, -400]);
-  const rotateSparkle = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const scaleImg = useTransform(spring, [0, 1], [1.12, 1.3]);
+  const overlayOpacity = useTransform(spring, [0, 0.25, 0.8, 1], [0.55, 0.78, 0.82, 0.96]);
+  const lineExtent = useTransform(spring, [0, 1], ["0%", "100%"]);
+  const yMotif = useTransform(spring, [0, 1], [60, -220]);
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] bg-[#000814]">
-      {/* Cinematic Background Layer */}
+    <section
+      ref={containerRef}
+      id="story"
+      className="relative h-[400vh] bg-night"
+    >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <motion.div 
+        {/* Background */}
+        <motion.div
           style={{ scale: scaleImg }}
-          className="absolute inset-0 w-full h-full origin-center"
+          className="absolute inset-0 origin-center"
         >
-          <img 
-            src="/PAJU2051.jpg" 
-            alt="Our Story" 
-            className="w-full h-full object-cover object-center filter brightness-[0.7] sepia-[0.3] contrast-[1.1]"
+          <Image
+            src="/PAJU2051.jpg"
+            alt="Deepa and Yadev"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+            style={{
+              filter:
+                "brightness(0.6) contrast(1.05) saturate(0.8) sepia(0.3)",
+            }}
           />
         </motion.div>
-        
-        {/* Dynamic Gradient Overlays */}
-        <motion.div 
-          style={{ opacity: opacityOverlay }}
-          className="absolute inset-0 bg-[#000814]" 
+
+        {/* Overlays */}
+        <motion.div
+          style={{ opacity: overlayOpacity }}
+          className="absolute inset-0 bg-night"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#000814] via-transparent to-[#000814]" />
-        
-        {/* Decorative Parallax Elements */}
-        <motion.div style={{ y: yHeart1 }} className="absolute top-[20%] left-[10%] opacity-10 text-[#D4AF37]">
-          <Heart size={120} fill="currentColor" className="blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-night via-transparent to-night" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(6,10,20,0.7)_100%)]" />
+
+        {/* Decorative marigold motif */}
+        <motion.div
+          style={{ y: yMotif }}
+          className="absolute -right-8 md:right-[6%] top-[16%] w-44 md:w-72 opacity-[0.09] text-gold-light pointer-events-none"
+        >
+          <svg viewBox="0 0 200 200" fill="currentColor" aria-hidden>
+            <g>
+              {Array.from({ length: 12 }).map((_, i) => (
+                <ellipse
+                  key={i}
+                  cx="100"
+                  cy="62"
+                  rx="14"
+                  ry="34"
+                  transform={`rotate(${i * 30} 100 100)`}
+                  opacity="0.85"
+                />
+              ))}
+              <circle cx="100" cy="100" r="16" />
+            </g>
+          </svg>
         </motion.div>
-        <motion.div style={{ y: yHeart2 }} className="absolute bottom-[20%] right-[10%] opacity-10 text-[#D4AF37]">
-          <Heart size={180} fill="currentColor" className="blur-[3px]" />
-        </motion.div>
-        <motion.div style={{ rotate: rotateSparkle }} className="absolute top-[40%] right-[15%] opacity-20 text-[#D4AF37]">
-          <Sparkles size={40} />
+        <motion.div
+          style={{ y: yMotif }}
+          className="absolute -left-10 md:left-[6%] bottom-[18%] w-36 md:w-56 opacity-[0.07] text-gold-light pointer-events-none rotate-180"
+        >
+          <svg viewBox="0 0 200 200" fill="currentColor" aria-hidden>
+            <g>
+              {Array.from({ length: 12 }).map((_, i) => (
+                <ellipse
+                  key={i}
+                  cx="100"
+                  cy="62"
+                  rx="14"
+                  ry="34"
+                  transform={`rotate(${i * 30} 100 100)`}
+                  opacity="0.85"
+                />
+              ))}
+              <circle cx="100" cy="100" r="16" />
+            </g>
+          </svg>
         </motion.div>
 
-        {/* Timeline Progress Line (Side) */}
-        <div className="absolute left-6 md:left-12 top-[20%] bottom-[20%] w-[1px] bg-white/10 hidden md:block">
-           <motion.div 
-             style={{ height: lineExtent }}
-             className="w-full bg-gradient-to-b from-[#D4AF37]/0 via-[#D4AF37] to-[#D4AF37]/0"
-           />
+        {/* Timeline */}
+        <div className="absolute left-5 md:left-10 top-[22%] bottom-[22%] w-px bg-ivory/10 hidden md:block">
+          <motion.div
+            style={{ height: lineExtent }}
+            className="w-full bg-gradient-to-b from-gold/0 via-gold to-gold/0"
+          />
         </div>
+
+        {/* Film grain */}
+        <div className="grain absolute inset-0 z-[2]" />
       </div>
 
-      {/* Narrative Journey */}
-      <div className="relative z-20 flex flex-col items-center -mt-[100vh]">
-        {/* Intro Moment */}
+      {/* Narrative */}
+      <div className="relative z-10 flex flex-col items-center -mt-[100vh]">
+        {/* Opening */}
         <div className="h-screen flex flex-col items-center justify-center text-center px-6">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.5 }}
-            className="mb-12"
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="text-[#D4AF37] font-playfair tracking-[0.6em] uppercase text-xs mb-6 inline-block bg-[#D4AF37]/5 px-6 py-2 rounded-full border border-[#D4AF37]/20">
-              Our Journey
-            </span>
-            <h2 className="font-great-vibes text-7xl md:text-8xl lg:text-[9rem] py-4 text-elegant-gradient drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]">
-              How we met
+            <p className="font-caps text-[10px] md:text-xs tracking-[0.6em] uppercase text-gold/80 mb-6">
+              Our Story
+            </p>
+            <h2 className="font-script text-ivory-gold text-6xl md:text-7xl lg:text-8xl leading-tight drop-shadow-[0_4px_30px_rgba(201,162,39,0.3)]">
+              The journey
             </h2>
+            <div className="text-gold/40 mt-8 w-64 mx-auto">
+              <MandalaDivider className="w-full" />
+            </div>
           </motion.div>
-          <div className="flex flex-col items-center gap-4">
-             <div className="w-px h-24 bg-gradient-to-b from-[#D4AF37] to-transparent" />
-             <p className="font-playfair italic text-white/40 tracking-widest text-sm uppercase">Scroll to begin the story</p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 1 }}
+            className="absolute bottom-14 flex flex-col items-center gap-4"
+          >
+            <div className="w-px h-16 bg-gradient-to-b from-gold/60 to-transparent" />
+            <p className="font-caps text-[9px] tracking-[0.5em] uppercase text-ivory/40">
+              Scroll to begin
+            </p>
+          </motion.div>
         </div>
 
-        {/* Story Chapters */}
-        <div className="max-w-6xl mx-auto px-6 space-y-[40vh] pb-[60vh]">
-          <div className="text-center group">
-            <TextReveal>
-              It all started with a simple hello. Two paths crossed at exactly the right time, in a world full of noise, we found each other.
-            </TextReveal>
-          </div>
-
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-6 mb-16 opacity-30">
-               <div className="h-[1px] w-12 bg-[#D4AF37]" />
-               <Heart size={20} className="text-[#D4AF37]" />
-               <div className="h-[1px] w-12 bg-[#D4AF37]" />
+        {/* Chapters */}
+        <div className="max-w-6xl mx-auto px-6 space-y-[45vh] pb-[55vh]">
+          {CHAPTERS.map((ch, idx) => (
+            <div key={ch.no} className="text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-120px" }}
+                transition={{ duration: 1 }}
+                className="mb-8 flex flex-col items-center gap-3"
+              >
+                <span className="font-caps text-xs md:text-sm tracking-[0.5em] uppercase text-gold/80">
+                  Chapter {ch.no}
+                </span>
+                <span className="font-serif italic text-ivory/50 text-sm md:text-base">
+                  {ch.title}
+                </span>
+                {idx < CHAPTERS.length - 1 && (
+                  <span className="h-px w-16 bg-gold/20 mt-2" />
+                )}
+              </motion.div>
+              <TextReveal>{ch.body}</TextReveal>
             </div>
-            <TextReveal>
-              What began as a beautiful friendship soon blossomed into a lifelong promise. We discovered that every shared smile was a step towards forever.
-            </TextReveal>
-          </div>
-
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-6 mb-16 opacity-30">
-               <div className="h-[1px] w-12 bg-[#D4AF37]" />
-               <Sparkles size={20} className="text-[#D4AF37]" />
-               <div className="h-[1px] w-12 bg-[#D4AF37]" />
-            </div>
-            <TextReveal>
-              Through shared laughter and quiet moments of understanding, we realized our hearts had finally found their way back home.
-            </TextReveal>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Decorative Bottom Transition */}
-      <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-[#001540] to-transparent z-30" />
+      {/* Transition to events */}
+      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-ivory to-transparent z-20" />
     </section>
   );
 }
