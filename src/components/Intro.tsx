@@ -61,7 +61,7 @@ export default function Intro({ onOpen, isOpen }: IntroProps) {
     >
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vmin] h-[60vmin] rounded-full bg-gold/10 blur-[120px]" />
+        <div className="glow-gold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vmin] h-[60vmin]" />
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(6,10,20,0.9)_100%)]" />
         <div className="absolute inset-0 opacity-60">
           <div className="absolute bottom-[-18%] left-1/2 -translate-x-1/2 w-[720px] max-w-[140vw] text-gold/[0.06]">

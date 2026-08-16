@@ -40,8 +40,8 @@ export default function RSVP() {
       className="relative py-28 md:py-40 bg-ivory text-ink overflow-hidden"
     >
       <div className="absolute inset-0 paper-texture opacity-[0.05]" />
-      <div className="absolute top-[-25%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-gold/10 blur-[140px]" />
-      <div className="absolute bottom-[-25%] right-[-5%] w-[500px] h-[500px] rounded-full bg-rose/5 blur-[130px]" />
+      <div className="glow-gold absolute top-[-25%] left-1/2 -translate-x-1/2 w-[600px] h-[600px]" />
+      <div className="glow-rose absolute bottom-[-25%] right-[-5%] w-[500px] h-[500px]" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-6">
         <motion.div
@@ -78,7 +78,7 @@ export default function RSVP() {
           <CornerFiligree className="absolute -bottom-3 -right-3 w-14 h-14 md:w-16 md:h-16 text-gold/70 rotate-180" />
           <CornerFiligree className="absolute -bottom-3 -left-3 w-14 h-14 md:w-16 md:h-16 text-gold/70 -rotate-90" />
 
-          <div className="relative bg-mist/85 backdrop-blur-sm rounded-[2rem] md:rounded-[2.5rem] p-8 md:p-12">
+          <div className="relative bg-mist/95 rounded-[2rem] md:rounded-[2.5rem] p-8 md:p-12">
             <AnimatePresence mode="wait">
               {submitted ? (
                 <motion.div

@@ -229,8 +229,8 @@ export default function Events() {
       className="relative py-28 md:py-40 bg-ivory text-ink overflow-hidden"
     >
       <div className="absolute inset-0 paper-texture opacity-[0.05]" />
-      <div className="absolute top-[-20%] right-[-10%] w-[520px] h-[520px] rounded-full bg-gold/10 blur-[130px]" />
-      <div className="absolute bottom-[-20%] left-[-10%] w-[520px] h-[520px] rounded-full bg-rose/5 blur-[130px]" />
+      <div className="glow-gold absolute top-[-20%] right-[-10%] w-[520px] h-[520px]" />
+      <div className="glow-rose absolute bottom-[-20%] left-[-10%] w-[520px] h-[520px]" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <motion.div

@@ -24,10 +24,9 @@ function Word({
 }) {
   const opacity = useTransform(progress, [start, end], [0.08, 1]);
   const y = useTransform(progress, [start, end], [16, 0]);
-  const blur = useTransform(progress, [start, end], [3, 0]);
   return (
     <motion.span
-      style={{ opacity, y, filter: `blur(${blur}px)` }}
+      style={{ opacity, y }}
       className="inline-block font-serif font-light text-3xl md:text-5xl lg:text-6xl text-ivory leading-snug tracking-wide"
     >
       {word}
@@ -105,7 +104,7 @@ export default function Story() {
       id="story"
       className="relative h-[400vh] bg-night"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
         {/* Background */}
         <motion.div
           style={{ scale: scaleImg }}

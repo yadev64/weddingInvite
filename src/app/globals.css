@@ -25,10 +25,6 @@
   color-scheme: dark;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   background: var(--color-midnight);
   color: var(--color-ivory);
@@ -185,7 +181,22 @@ body {
   background-image: url("/assets/paper.jpg");
   background-size: 900px;
   background-repeat: repeat;
-  mix-blend-mode: multiply;
+}
+
+/* ---------- Cheap ambient glows (no filter: blur) ---------- */
+.glow-gold {
+  background: radial-gradient(
+    circle,
+    rgba(201, 162, 39, 0.18) 0%,
+    transparent 65%
+  );
+}
+.glow-rose {
+  background: radial-gradient(
+    circle,
+    rgba(176, 72, 63, 0.1) 0%,
+    transparent 65%
+  );
 }
 
 /* ---------- Slow float ---------- */
@@ -260,8 +271,5 @@ body {
   .seal-pulse,
   .scroll-dot {
     animation: none !important;
-  }
-  html {
-    scroll-behavior: auto;
   }
 }

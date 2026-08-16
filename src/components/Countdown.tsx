@@ -18,8 +18,8 @@ const TimeUnit = memo(({ value, label }: { value: number; label: string }) => (
     <div className="relative overflow-visible">
       <motion.span
         key={value}
-        initial={{ y: 18, opacity: 0, filter: "blur(3px)" }}
-        animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+        initial={{ y: 18, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="font-caps font-semibold text-4xl md:text-6xl lg:text-7xl text-gold-deep tabular-nums drop-shadow-[0_2px_10px_rgba(201,162,39,0.25)]"
       >
@@ -62,8 +62,8 @@ export default function Countdown() {
     <section className="relative py-24 md:py-36 overflow-hidden bg-ivory text-ink">
       {/* Paper texture + ambient */}
       <div className="absolute inset-0 paper-texture opacity-[0.06]" />
-      <div className="absolute top-[-30%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gold/10 blur-[120px]" />
-      <div className="absolute bottom-[-30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-rose/5 blur-[120px]" />
+      <div className="glow-gold absolute top-[-30%] left-[-10%] w-[500px] h-[500px]" />
+      <div className="glow-rose absolute bottom-[-30%] right-[-10%] w-[500px] h-[500px]" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gold/[0.07] w-[640px] max-w-[110vw]">
         <MandalaDivider className="w-full h-auto" />
       </div>
@@ -103,7 +103,7 @@ export default function Countdown() {
           <CornerFiligree className="absolute -bottom-3 -right-3 w-14 h-14 md:w-16 md:h-16 text-gold/70 rotate-180" />
           <CornerFiligree className="absolute -bottom-3 -left-3 w-14 h-14 md:w-16 md:h-16 text-gold/70 -rotate-90" />
 
-          <div className="relative bg-mist/80 backdrop-blur-sm rounded-[2rem] md:rounded-[2.5rem] px-6 py-10 md:py-14 shadow-[inset_0_0_60px_rgba(201,162,39,0.06)]">
+          <div className="relative bg-mist/95 rounded-[2rem] md:rounded-[2.5rem] px-6 py-10 md:py-14 shadow-[inset_0_0_60px_rgba(201,162,39,0.06)]">
             <div className="flex items-center justify-center gap-2 md:gap-5">
               <TimeUnit value={time.days} label="Days" />
               <span className="font-caps text-gold/50 text-2xl md:text-4xl pb-8 hidden sm:block">
