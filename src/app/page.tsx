@@ -5,6 +5,8 @@ import Hero from "@/components/Hero";
 import Story from "@/components/Story";
 import Events from "@/components/Events";
 import Gallery from "@/components/Gallery";
+import GuestMoments from "@/components/GuestMoments";
+import ShareMoments from "@/components/ShareMoments";
 import Footer from "@/components/Footer";
 import Intro from "@/components/Intro";
 import Navbar from "@/components/Navbar";
@@ -41,6 +43,8 @@ export default function Home() {
       <Story />
       <Events />
       <Gallery />
+      <ShareMoments />
+      <GuestMoments />
       <RSVP />
       <Footer />
     </main>
