@@ -36,7 +36,7 @@ export default function BackgroundMusic({ isRevealed }: { isRevealed: boolean })
 
   return (
     <>
-      <audio ref={audioRef} src="/bgm.mp3" loop preload="auto" />
+      <audio ref={audioRef} src="/bgm.mp3" loop preload="none" />
 
       <AnimatePresence>
         {isRevealed && (

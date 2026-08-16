@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import { CornerFiligree, ArchFrame, MiniDivider } from "./Ornaments";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
@@ -38,8 +39,25 @@ export default function Hero() {
       id="top"
       className="relative h-[112svh] w-full flex items-center justify-center overflow-hidden bg-night"
     >
-      {/* Cinematic video */}
+      {/* Cinematic background — photo on touch (no video decode), video on desktop */}
       <motion.div style={{ scale: scaleVideo }} className="absolute inset-0 z-0">
+        <div className="md:hidden absolute inset-0 overflow-hidden">
+          <div className="kenburns h-full w-full">
+            <Image
+              src="/PAJU2051.jpg"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+              style={{
+                filter:
+                  "brightness(0.55) contrast(1.05) saturate(0.8) sepia(0.2)",
+              }}
+            />
+          </div>
+        </div>
+
         <video
           autoPlay
           muted
@@ -47,11 +65,7 @@ export default function Hero() {
           playsInline
           preload="metadata"
           poster="/PAJU2051.jpg"
-          className="w-full h-full object-cover"
-          style={{
-            filter:
-              "brightness(0.5) contrast(1.08) saturate(0.82) sepia(0.25)",
-          }}
+          className="hidden md:block w-full h-full object-cover"
         >
           <source src="/engagement.mp4" type="video/mp4" />
         </video>
@@ -59,7 +73,7 @@ export default function Hero() {
         {/* Grade overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-night/70 via-transparent to-night" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(6,10,20,0.55)_100%)]" />
-        <div className="absolute inset-0 bg-gold/10 mix-blend-soft-light" />
+        <div className="absolute inset-0 bg-gradient-to-t from-gold-deep/20 via-transparent to-transparent" />
       </motion.div>
 
       {/* Film grain */}
